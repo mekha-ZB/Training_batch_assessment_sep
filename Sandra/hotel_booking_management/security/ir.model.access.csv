@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hotel_booking,access.hotel.booking,model_hotel_booking,base.group_system,1,1,1,1
+access_hotel_room,access.hotel.room,model_hotel_room,base.group_system,1,1,1,1
+access_hotel_customers,access.hotel.customers,model_hotel_customers,base.group_system,1,1,1,1
+
+access_hotel_booking_staff,access.hotel.booking.staff,model_hotel_booking,hotel_booking_management.group_staff_users,1,1,1,0
+access_hotel_booking_supervisor,access.hotel.booking.supervisor,model_hotel_booking,hotel_booking_management.group_supervisor_users,1,1,0,0
+access_hotel_booking_manager,access.hotel.booking.manager,model_hotel_booking,hotel_booking_management.group_manager_user,1,1,1,1
+
+access_hotel_room_staff,access.hotel.room.staff,model_hotel_room,hotel_booking_management.group_staff_users,1,0,0,0
+access_hotel_room_supervisor,access.hotel.room.supervisor,model_hotel_room,hotel_booking_management.group_supervisor_users,1,1,0,0
+access_hotel_room_manager,access.hotel.room.manager,model_hotel_room,hotel_booking_management.group_manager_user,1,1,1,1
+
+access_hotel_customers_staff,access.hotel.customers.staff,model_hotel_customers,hotel_booking_management.group_staff_users,1,0,0,0
+access_hotel_customers_supervisor,access.hotel.customers.supervisor,model_hotel_customers,hotel_booking_management.group_supervisor_users,1,1,1,0
+access_hotel_customer_manager,access.hotel.customers.manager,model_hotel_customers,hotel_booking_management.group_manager_user,1,1,1,1

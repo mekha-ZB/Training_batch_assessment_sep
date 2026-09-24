@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_hotel_booking_list" model="ir.ui.view">
+        <field name="name">hotel.booking.list</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <list string="Bookings">
+                <field name="customer_number"/>
+                <field name="customer_id"/>
+                <field name="room_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="number_of_nights"/>
+                <field name="rate_per_night"/>
+                <field name="total_price"/>
+                <field name="status" widget="badge"
+                       decoration-primary="status=='checked_out'"
+                       decoration-success="status=='confirmed'"
+                       decoration-danger="status=='cancelled'"
+                       decoration-warning="status=='cancellation_requested'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hotel_booking_form" model="ir.ui.view">
+        <field name="name">hotel.booking.form</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send_email"
+                            string="Send Email"
+                            type="object"
+                            class="btn-primary"
+                            groups="hotel_booking_management.group_manager_user"/>
+
+                    <button name="action_request_cancellation"
+                            string="Request Cancellation"
+                            type="object"
+                            class="btn-secondary"
+                            groups="hotel_booking_management.group_staff_users"
+                            invisible="status != 'confirmed'"/>
+
+                    <button name="action_approve_cancellation"
+                            string="Approve Cancellation"
+                            type="object"
+                            class="btn-primary"
+                            invisible="status != 'cancellation_requested'"/>
+
+                    <button name="action_reject_cancellation"
+                            string="Reject Cancellation"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="status != 'cancellation_requested'"/>
+
+                    <button name="action_check_out"
+                            string="Check Out"
+                            type="object"
+                            class="btn-primary"
+                            invisible="status != 'confirmed'"/>
+
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="confirmed,checked_out,cancellation_requested,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="customer_number"/>
+                            <field name="customer_id"/>
+                            <field name="room_id"/>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                        </group>
+                        <group>
+                            <field name="number_of_nights"/>
+                            <field name="rate_per_night"/>
+                            <field name="total_price"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hotel_booking_search" model="ir.ui.view">
+        <field name="name">hotel.booking.search</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="customer_number"/>
+                <field name="customer_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hotel_booking" model="ir.actions.act_window">
+        <field name="name">Hotel Bookings</field>
+        <field name="res_model">hotel.booking</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+
+    <menuitem id="menu_hotel_root"
+              name="Hotel Booking"
+              sequence="1"/>
+    <menuitem id="menu_hotel_bookings"
+              name="Bookings"
+              parent="menu_hotel_root"
+              action="action_hotel_booking"
+              sequence="2"/>
+
+</odoo>
+
