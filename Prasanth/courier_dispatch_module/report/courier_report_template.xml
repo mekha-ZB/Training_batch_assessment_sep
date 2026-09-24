@@ -1,0 +1,81 @@
+<odoo>
+    <template id="report_courier_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Courier Report: <span t-field="doc.booking_seq"/></h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <label for="name"><strong>Name:</strong></label>
+                                <p t-field="doc.customer_id.name"/>
+                            </div>
+                        </div>
+                        <div class="row mb32">
+                            <div class="col-6">
+                                <label for="booking_date"><strong>Pickup Date:</strong></label>
+                                <p t-field="doc.booking_date"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="delivery_date"><strong>Delivery Date:</strong></label>
+                                <p t-field="doc.delivery_date"/>
+                            </div>
+                        </div>
+                        <div class="row mb32">
+                            <div class="col-6">
+                                <label for="cust_phone"><strong>Phone:</strong></label>
+                                <p t-field="doc.cust_phone"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cust_email"><strong>Email:</strong></label>
+                                <p t-field="doc.cust_email"/>
+                            </div>
+                        </div>
+                        <div class="row mb32">
+                            <div class="col-6">
+                                <label for="Delivery Address"><strong>Delivery Address:</strong></label>
+                                <p t-field="doc.delivery_street"/>
+                                <p t-field="doc.delivery_city"/>
+                                <p t-field="doc.delivery_zip"/>
+                                <p t-field="doc.delivery_state_id.name"/>
+                                <p t-field="doc.delivery_country_id.name"/>
+                            </div>
+                        </div>
+                        <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:13px;">
+                            <thead>
+                                <tr style="background-color:#EAEAEA;">
+                                    <th style="border:2px solid #000; padding:10px; text-align:left;">Product Name(s)</th>
+                                    <th style="border:2px solid #000; padding:10px; text-align:left;">Qty</th>
+                                    <th style="border:2px solid #000; padding:10px; text-align:left;">Weight(Kg)</th>
+                                    <th style="border:2px solid #000; padding:10px; text-align:center;">Price</th>
+                                    <th style="border:2px solid #000; padding:10px; text-align:left;">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.product_line_ids" t-as="line">
+                                    <tr>
+                                        <td style="border: 2px solid #000; padding: 10px;">
+                                            <span t-field="line.product_line_id.name"/>
+                                        </td>
+                                        <td style="border: 2px solid #000; padding: 10px;">
+                                            <span t-field="line.product_quantity"/>
+                                        </td>
+                                        <td style="border: 2px solid #000; padding: 10px;">
+                                            <span t-field="line.product_weight"/>
+                                        </td>
+                                        <td style="border: 2px solid #000; padding: 10px; text-align:center;">
+                                            <span t-field="line.product_price"/>
+                                        </td>
+                                        <td style="border: 2px solid #000; padding: 10px;">
+                                            <span t-field="line.total_price"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

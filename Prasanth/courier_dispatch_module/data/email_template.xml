@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_courier_details" model="mail.template">
+        <field name="name">Courier Details Template</field>
+        <field name="model_id" ref="courier_dispatch_module.model_pickup_booking"/>
+        <field name="email_from">{{ object.company_id.email or object.env.company.email or user.email_formatted }}</field>
+        <field name="email_to">{{ object.cust_email or object.customer_id.email }}</field>
+        <field name="partner_to">{{ object.customer_id.id or '' }}</field>
+        <field name="subject">Courier Details : {{ object.customer_id.name }}</field>
+        <field name="report_template_ids" eval="[(6, 0, [ref('courier_dispatch_module.action_courier_report')])]"/>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                <p>Dear <strong><t t-out="object.customer_id.name"/></strong>,</p>
+
+                <p>We are pleased to send you your details. Please find the details below:</p>
+                <table style="border: 1px solid #000; border-collapse: collapse; width: 100%; margin-top: 10px;">
+                    <thead>
+                        <tr style="background-color: #f2f2f2; text-align: left;">
+                            <th style="border: 1px solid #000; padding: 8px;">Customer Name</th>
+                            <th style="border: 1px solid #000; padding: 8px;">Email</th>
+                            <th style="border: 1px solid #000; padding: 8px;">Phone</th>
+                            <th style="border: 1px solid #000; padding: 8px;">Address</th>
+                            <th style="border: 1px solid #000; padding: 8px;">Country</th>
+                            <th style="border: 1px solid #000; padding: 8px;">State</th>
+                            <th style="border: 1px solid #000; padding: 8px;">City</th>
+                            <th style="border: 1px solid #000; padding: 8px;">Pincode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.customer_id.name"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.cust_email"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.cust_phone"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.delivery_street"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.delivery_country_id.name"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.delivery_state_id.name"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.delivery_city"/></td>
+                            <td style="border: 1px solid #000; padding: 8px;"><t t-out="object.delivery_zip"/></td></tr>
+                    </tbody> 
+                </table>
+                <p>Kindly confirm your details.</p>
+                <p>Best Regards,</p>
+                <p><strong><t t-out="object.company_id.name"/></strong></p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="False"/>
+    </record>
+</odoo>

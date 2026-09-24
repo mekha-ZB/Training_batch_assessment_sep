@@ -1,0 +1,132 @@
+<odoo>
+    <record id="pickup_booking_form" model="ir.ui.view">
+        <field name="name">pickup.booking.form</field>
+        <field name="model">pickup.booking</field>
+        <field name="arch" type="xml">
+            <form>
+            <header>
+                <button name="action_button_print" type="object" string="Print" class="oe_highlight" groups="courier_dispatch_module.group_courier_manager"/>
+                <button name="action_send_mail" type="object" string="Send Mail" class="oe_highlight"/>
+            
+                <button name="action_delivered" type="object" string="Delivered" class="btn-success" invisible="booking_status != 'scheduled'" />
+                <button name="action_cancellation_requested" type="object" string="Cancellation Request" class="btn-warning" invisible="booking_status != 'scheduled'"/>
+                <button name="action_cancelled" type="object" string="Cancel" class="btn-danger" invisible="booking_status != 'cancellation_requested'" groups="courier_dispatch_module.group_courier_manager,courier_dispatch_module.group_courier_supervisor"/>
+                <button name="action_scheduled" type="object" string="Reset to Scheduled" class="btn-secondary" invisible="booking_status == 'scheduled'"/>
+                <field name="booking_status" widget="statusbar" statusbar_visible="scheduled,delivered"/>
+            </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="booking_seq"/>
+                        </h1>
+                    </div>
+            
+                    <group>
+
+                        <group name="booking_details">
+                            <field name="customer_id" domain="[('is_company', '=', False),('is_courier_incharge', '=', False),('is_customer','=', True)]" required="True"/>
+                            <field name="cust_phone"/>
+                            <field name="cust_email"/>
+                            <field name="company_id" required="True"/>
+                            <field name="courier_id" domain="[('is_company', '=', False),('is_courier_incharge', '=', True)]" required="True"/>
+                        </group>
+
+                        <group name="dates">
+                            <field name="booking_date" required="True"/>
+                            <field name="delivery_date" required="True"/>
+                        </group>
+
+                    </group>
+                    
+                    <group>
+                        <group string="Pickup Address" name="pickup_address">
+                            <div class="o_address_format">
+                                <field name="pickup_street" placeholder="Street..." class="o_address_street"/>
+                                <field name="pickup_city" placeholder="City" class="o_address_city"/>
+                                <field name="pickup_state_id" placeholder="State" class="o_address_state" options="{'no_open': True}"/>
+                                <field name="pickup_zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="pickup_country_id" placeholder="Country" class="o_address_country" options="{'no_open': True}"/>
+                            </div>
+                        </group>
+                        <group string="Delivery Address" name="delivery_address">
+                            <div class="o_address_format">
+                                <field name="delivery_street" placeholder="Street..." class="o_address_street"/>
+                                <field name="delivery_city" placeholder="City" class="o_address_city"/>
+                                <field name="delivery_state_id" placeholder="State" class="o_address_state" options="{'no_open': True}"/>
+                                <field name="delivery_zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="delivery_country_id" placeholder="Country" class="o_address_country" options="{'no_open': True}"/>
+                            </div>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="product_line_ids">
+                                <list editable="bottom">
+                                    <field name="product_line_id" required="1"/>
+                                    <field name="currency_id" required="1"/>
+                                    <field name="product_price" widget="monetary" options="{'currency_field': 'currency_id'}" required="1"/>
+                                    <field name="product_quantity" required="1"/>
+                                    <field name="product_weight" required="1"/>
+                                    <field name="total_price" widget="monetary" options="{'currency_field': 'currency_id'}" sum='total_price' required="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="pickup_booking_list" model="ir.ui.view">
+        <field name="name">pickup.booking.list</field>
+        <field name="model">pickup.booking</field>
+        <field name="arch" type="xml">
+            <list>
+            <header>
+            <button name="action_view_all_bookings" type="object" string="Assign Courier" class="oe_highlight"/>
+            </header>
+                <field name="booking_seq"/>
+                <field name="customer_id"/>
+                <field name="booking_date"/>
+                <field name="delivery_date"/>
+                <field name="booking_status" widget="badge" 
+                       decoration-success="booking_status == 'delivered'" 
+                       decoration-info="booking_status == 'scheduled'" 
+                       decoration-warning="booking_status == 'cancellation_requested'" 
+                       decoration-danger="booking_status == 'cancelled'" />
+            </list>
+        </field>
+    </record>
+        <record id="pickup_booking_search_view" model="ir.ui.view">
+    <field name="name">pickup.booking.search</field>
+    <field name="model">pickup.booking</field>
+    <field name="arch" type="xml">
+        <search string="Search Pickups">
+            <field name="booking_seq" string="Booking Code"/>
+            <field name="customer_id" string="Customer"/>
+            <field name="courier_id" string="Courier"/>
+            <field name="booking_date"/>
+            <field name="delivery_date"/>
+            <field name="booking_status"/>
+            <filter string="Scheduled" name="filter_scheduled" domain="[('booking_status', '=', 'scheduled')]"/>
+            <filter string="Delivered" name="filter_delivered" domain="[('booking_status', '=', 'delivered')]"/>
+            <filter string="Cancelled" name="filter_cancelled" domain="[('booking_status', '=', 'cancelled')]"/>
+            <filter string="Cancellation Requested" name="filter_cancellation_requested" domain="[('booking_status', '=', 'cancellation_requested')]"/>
+            <group>
+                <filter string="Customer" name="group_by_customer" context="{'group_by': 'customer_id'}"/>
+                <filter string="Courier" name="group_by_courier" context="{'group_by': 'courier_id'}"/>
+                <filter string="Booking Date" name="group_by_booking_date" context="{'group_by': 'booking_date'}"/>
+                <filter string="Delivery Date" name="group_by_delivery_date" context="{'group_by': 'delivery_date'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+    <record id="action_pickup_booking" model="ir.actions.act_window">
+        <field name="name">Pickup Booking</field>
+        <field name="res_model">pickup.booking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

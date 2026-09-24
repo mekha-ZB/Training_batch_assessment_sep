@@ -1,0 +1,31 @@
+<odoo>
+<data>
+<record id="wizard_booking_form" model="ir.ui.view">
+    <field name="name">wizard.booking.form</field>
+    <field name="model">wizard.booking</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="courier_id" domain="[('is_company', '=', False),('is_courier_incharge', '=', True)]"/>
+            </group>
+            <group>
+            <notebook>
+            <page string="Bookings">
+             <field name="wizard_booking_ids" nolabel="1">
+                <list editable="bottom" readonly="1" delete="0" create="0">
+                    <field name="booking_id"/>
+                    <field name="line_id" column_invisible="1"/>
+                </list>
+             </field>
+            </page>
+            </notebook>
+            </group>
+            <footer>
+                <button name="action_view_all_bookings" string="Confirm" type="object" class="btn-primary"/>
+                <button string="Cancel" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</data>
+</odoo>

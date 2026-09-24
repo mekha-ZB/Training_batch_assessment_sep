@@ -1,0 +1,18 @@
+<odoo>
+<record id="res_partner_inherit_form" model="ir.ui.view">
+    <field name="name">res.partner.inherit.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='category_id']" position="after">
+            <field name="is_courier_incharge"/>
+            <field name="is_customer"/>
+        </xpath>
+        <xpath expr="//div[@name='button_box']" position="inside">
+            <button name="action_view_customer_bookings" string="Courier Bookings" type="object" class="oe_stat_button">
+                <field name="customer_booking_count" widget="statinfo" string="Bookings"/>
+            </button>
+        </xpath>
+    </field>
+</record>
+</odoo>

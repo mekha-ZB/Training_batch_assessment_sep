@@ -1,0 +1,4 @@
+<odoo>
+    <menuitem id="menu_courier_root" name="Courier Dispatch Module" sequence="10"/>
+    <menuitem id="menu_pickup_booking" name="Pickup Booking" parent="menu_courier_root" action="action_pickup_booking" sequence="10"/>
+</odoo>

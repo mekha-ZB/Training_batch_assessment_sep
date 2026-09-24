@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="module_category_courier_dispatch" model="ir.module.category">
+        <field name="name">Courier Dispatch</field>
+    </record>
+
+
+    <record id="res_groups_privilege_courier_dispatch" model="res.groups.privilege">
+        <field name="name">Courier Dispatch</field>
+        <field name="category_id" ref="module_category_courier_dispatch"/>
+    </record>
+
+
+    <record id="group_courier_agent" model="res.groups">
+        <field name="name">Booking Agent</field>
+        <field name="privilege_id" ref="res_groups_privilege_courier_dispatch"/>
+    </record>
+    <record id="group_courier_supervisor" model="res.groups">
+        <field name="name">Dispatch Supervisor</field>
+        <field name="privilege_id" ref="res_groups_privilege_courier_dispatch"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_courier_agent'))]"/>
+    </record>
+    <record id="group_courier_manager" model="res.groups">
+        <field name="name">Operations Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_courier_dispatch"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_courier_supervisor'))]"/>
+    </record>
+    
+</odoo>

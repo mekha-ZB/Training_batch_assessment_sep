@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="courier_booking_agent_rule" model="ir.rule">
+            <field name="name">Courier Agent Records Access</field>
+            <field name="model_id" ref="model_pickup_booking"/>
+            <field name="groups" eval="[(4, ref('group_courier_agent'))]"/>
+            <field name="domain_force">[('courier_id', '=', user.partner_id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="courier_dispatch_supervisor_rule" model="ir.rule">
+            <field name="name">Courier Dispatch Supervisor Records Access</field>
+            <field name="model_id" ref="model_pickup_booking"/>
+            <field name="groups" eval="[(4, ref('group_courier_supervisor'))]"/>
+            <field name="domain_force">[]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="courier_operations_manager_rule" model="ir.rule">
+            <field name="name">Courier Operations Manager Records Access</field>
+            <field name="model_id" ref="model_pickup_booking"/>
+            <field name="groups" eval="[(4, ref('group_courier_operations_manager'))]"/>
+            <field name="domain_force">[]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
