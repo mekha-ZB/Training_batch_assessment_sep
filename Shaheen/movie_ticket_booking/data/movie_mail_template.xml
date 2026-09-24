@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_booking_details" model="mail.template">
+        <field name="name">Movie Ticket Details</field>
+        <field name="model_id" ref="movie_ticket_booking.model_movie_booking"/>
+        <field name="email_from">{{ object.env.company.email }}</field>
+        <field name="email_to">{{ object.customer_id.email }}</field>
+        <field name="subject">Movie Ticket - {{ object.booking_sequence }} - {{ object.customer_id.name }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.customer_id.name"/>
+                    </strong>,
+                </p>
+                <p>
+                    Thank you for booking your movie tickets with
+                </p>
+                <p>
+                    Your booking details are provided below.
+                </p>
+
+                <!-- BOOKING DETAILS -->
+                <table style="border: 1px solid #ddd;
+                              border-collapse: collapse;
+                              width: 100%;
+                              margin-top: 15px;">
+
+                    <!-- Booking ID -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Booking ID
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+
+                            <t t-out="object.booking_sequence"/>
+                        </td>
+                    </tr>
+
+                    <!-- Customer -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Customer
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+                            <t t-out="object.customer_id.name"/>
+                        </td>
+                    </tr>
+
+                    <!-- Movie -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Movie
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+                            <t t-if="object.show_id">
+                                <t t-out="object.show_id.movie_name"/>
+                            </t>
+                            <t t-else="">
+                                Not assigned
+                            </t>
+                        </td>
+                    </tr>
+
+                    <!-- Hall -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Hall
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+                            <t t-if="object.hall_id">
+                                <t t-out="object.hall_id.hall_name"/>
+                            </t>
+                            <t t-else="">
+                                Not assigned
+                            </t>
+                        </td>
+                    </tr>
+
+                    <!-- Seats -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Seats
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+                            <t t-if="object.number_of_seats">
+                                <t t-foreach="object.number_of_seats"
+                                   t-as="seat">
+                                    <span>
+                                        <t t-out="seat.seats_id"/>
+                                    </span>
+                                    
+                                </t>
+                            </t>
+                            <t t-else="">
+                                No seats assigned
+                            </t>
+                        </td>
+                    </tr>
+
+                    <!-- Booking Status -->
+                    <tr>
+                        <th style="border: 1px solid #ddd;
+                                   padding: 8px;
+                                   text-align: left;">
+                            Booking Status
+                        </th>
+                        <td style="border: 1px solid #ddd;
+                                   padding: 8px;">
+                            <t t-out="object.status"/>
+                        </td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px;">
+                    Your movie ticket is attached below.
+                </p>
+                <p>
+                    Please keep this ticket for your reference.
+                </p>
+                <p>
+                    Thank you.
+                </p>
+                <p>
+                    Best Regards,
+                    <br/>
+                    <strong>
+                        <t t-out="object.env.company.name"/>
+                    </strong>
+                </p>
+            </div>
+        </field>
+
+        <!-- Attach Movie Ticket PDF -->
+        <field name="report_template_ids"
+               eval="[(4, ref('movie_ticket_booking.action_booked_ticket_receipt'))]"/>
+    </record>
+
+</odoo>

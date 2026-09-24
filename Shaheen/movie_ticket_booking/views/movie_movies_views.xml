@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SEARCH VIEW -->
+    <record id="movie_movies_view_search" model="ir.ui.view">
+        <field name="name">movie.movies.view.search</field>
+        <field name="model">movie.movies</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="movie_name" />
+                <field name="movie_runtime" />
+                <field name="movie_halls" />
+            </search>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="movie_movies_view_list" model="ir.ui.view">
+        <field name="name">movies.view.list</field>
+        <field name="model">movie.movies</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="movie_name" />
+                <field name="movie_runtime" />
+                <field name="movie_halls" />
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="movie_movies_view_form" model="ir.ui.view">
+        <field name="name">movies.view.form</field>
+        <field name="model">movie.movies</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="movie_name" required="True" />
+                        <field name="movie_runtime" />
+                        <field name="movie_halls" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

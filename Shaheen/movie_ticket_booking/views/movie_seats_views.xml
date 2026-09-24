@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SEARCH VIEW -->
+    <record id="movie_seats_view_search" model="ir.ui.view">
+        <field name="name">movie.seats.view.search</field>
+        <field name="model">movie.seats</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="seats_id" />
+                <field name="seat_hall" />
+                <!-- <field name="active" /> -->
+            </search>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="movie_seats_view_list" model="ir.ui.view">
+        <field name="name">seats.view.list</field>
+        <field name="model">movie.seats</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="seats_id" />
+                <field name="seat_hall" />
+                <!-- <field name="active" /> -->
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="movie_seats_view_form" model="ir.ui.view">
+        <field name="name">seats.view.form</field>
+        <field name="model">movie.seats</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="seats_id" required="True" force_save='True'/>
+                        <field name="seat_hall" options="{'no_create': 1, 'no_create_edit': 1}" />
+                        <!-- <field name="active" /> -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

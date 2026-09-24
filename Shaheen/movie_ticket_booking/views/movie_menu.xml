@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ACTION MENUS -->
+
+    <!-- BOOKING -->
+    <record id="action_movie_booking" model="ir.actions.act_window">
+        <field name="name">Booking</field>
+        <field name="res_model">movie.booking</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+    <!-- MOVIES -->
+    <record id="action_movie_movies" model="ir.actions.act_window">
+        <field name="name">Movies</field>
+        <field name="res_model">movie.movies</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+    <!-- HALLS -->
+    <record id="action_movie_halls" model="ir.actions.act_window">
+        <field name="name">Halls</field>
+        <field name="res_model">movie.halls</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+    <!-- SEATS -->
+    <record id="action_movie_seats" model="ir.actions.act_window">
+        <field name="name">Seats</field>
+        <field name="res_model">movie.seats</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+    <!-- SHOWS -->
+    <record id="action_movie_shows" model="ir.actions.act_window">
+        <field name="name">Shows</field>
+        <field name="res_model">movie.shows</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+    <!-- MAIN MENU -->
+    <menuitem
+        id="movie_ticket_booking_menu_root"
+        name="Movie Ticket Booking"
+        sequence="10" />
+
+    <!-- MOVIE TICKET BOOKING SUBMENU -->
+
+    <!-- FOR SHOWS -->
+    <menuitem
+        id="movie_shows_menu"
+        name="Shows"
+        action="action_movie_shows"
+        parent="movie_ticket_booking_menu_root"
+        sequence="10" />
+    <!-- FOR BOOKING -->
+    <menuitem
+        id="movie_booking_menu"
+        name="Bookings"
+        action="action_movie_booking"
+        parent="movie_ticket_booking_menu_root"
+        sequence="20" />
+    <!-- CONFIGURE -->
+    <menuitem
+        id="movie_ticket_system_configure"
+        name="Configure"
+        parent="movie_ticket_booking_menu_root"
+        sequence="30" />
+    <!-- FOR MOVIES -->
+    <menuitem
+        id="movie_movies_menu"
+        name="Movies"
+        action="action_movie_movies"
+        parent="movie_ticket_system_configure"
+        sequence="30" />
+    <!-- FOR HALLS -->
+    <menuitem
+        id="movie_halls_menu"
+        name="Halls"
+        action="action_movie_halls"
+        parent="movie_ticket_system_configure"
+        sequence="40" />
+    <!-- FOR SEATS -->
+    <menuitem
+        id="movie_seats_menu"
+        name="Seats"
+        action="action_movie_seats"
+        parent="movie_ticket_system_configure"
+        sequence="50" />
+</odoo>

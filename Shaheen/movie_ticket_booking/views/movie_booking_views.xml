@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- LIST VIEW -->
+    <record id="movie_booking_view_list" model="ir.ui.view">
+        <field name="name">booking.view.list</field>
+        <field name="model">movie.booking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="booking_sequence" />
+                <field name="customer_id" />
+                <field name="show_id" />
+                <field name="hall_id" />
+                <field name="number_of_seats" widget="many2many_tags" />
+                <field name="status" 
+                    widget="badge" 
+                    decoration-primary="status == 'booked'" 
+                    decoration-success="status == 'completed'"
+                    decoration-warning="status == 'cancellation_request'"
+                    decoration-danger="status == 'cancelled'" />
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="movie_booking_view_form" model="ir.ui.view">
+        <field name="name">booking.view.form</field>
+        <field name="model">movie.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget='statusbar' statusbar_visible="booked,completed" />
+                    <div>
+                        <button string="Send Ticket" name="action_send_email" type="object"
+                            class="oe_highlight"
+                            invisible="status in ('booked','cancellation_request','cancelled')"
+                             />
+                    </div>
+                    <div>
+                        <button string="Confirm" name="action_confirm" 
+                            type="object"
+                            class="btn-primary"
+                            invisible="status in ('completed','cancellation_request','cancelled')" />
+                    </div>
+                    <div>
+                        <button string="Reset to Booked" name="action_reset_to_booked" type="object"
+                            invisible="status in ('booked','cancellation_request')" />
+                    </div>
+                    <div>
+                        <button string="Cancellation Request" name="action_cancel_request" type="object"
+
+                            invisible="status in ('booked','cancellation_request','cancelled')" />
+                    </div>
+                    <div>
+                        <button string="Cancel Booking" name="action_to_cancelled" type="object"
+                            class="btn-danger"
+                            invisible="status in ('booked','completed','cancelled')"
+                            groups="movie_ticket_booking.group_floor_supervisor,movie_ticket_booking.group_cinema_manager,base.group_system" />
+                    </div>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="seat_available_smart_button" type="object"
+                            class="oe_stat_button" string="Seat Remaining" icon="oi-subtitle">
+                            <field name="seat_remaining" string="Seat Remaining" widget="statinfo" />
+                        </button>
+                    </div>
+                    <div>
+                        <div>
+                            <h1>
+                                <field name="booking_sequence" copy="False" readonly="True" />
+                            </h1>
+                        </div>
+                        <div>
+                            <group>
+                                <field name="customer_id" required="True"
+                                    domain="[('is_company', '!=', True)]" />
+                                <field name="show_id" />
+                                <field name="hall_id" />
+                                <field name="total_seats_available" widget="many2many_tags" />
+                                <field
+                                    name="number_of_seats"
+                                    widget="many2many_tags"
+                                    domain="[('id','=',total_seats_available)]"
+                                />
+                            </group>
+                        </div>
+                    </div>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+    <!-- SEARCH VIEW -->
+    <record id="movie_booking_view_search" model="ir.ui.view">
+        <field name="name">movie.booking.view.search</field>
+        <field name="model">movie.booking</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="customer_id" />
+                <field name="show_id" />
+                <field name="hall_id" />
+                <field name="number_of_seats" />
+                <filter
+                    name="booked"
+                    string="Booked"
+                    domain="[('status', '=', 'booked')]" />
+
+                <filter
+                    name="completed"
+                    string="Completed"
+                    domain="[('status', '=', 'completed')]" />
+
+                <filter
+                    name="cancellation_request"
+                    string="Cancellation Requests"
+                    domain="[('status', '=', 'cancellation_request')]" />
+
+                <filter
+                    name="cancelled"
+                    string="Cancelled"
+                    domain="[('status', '=', 'cancelled')]" />
+            </search>
+        </field>
+    </record>
+</odoo>

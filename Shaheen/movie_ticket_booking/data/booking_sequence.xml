@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="sequence_movie_booking" model="ir.sequence">
+            <field name="name">Movie Booking</field>
+            <field name="code">movie.booking</field>
+            <field name="prefix">BKD/%(year)s/</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field> 
+        </record>
+    </data>
+</odoo>

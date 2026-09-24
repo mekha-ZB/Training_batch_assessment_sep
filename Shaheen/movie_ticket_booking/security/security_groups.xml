@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- CATEGORY -->
+        <record id="movie_category_user_levels_categ" model="ir.module.category" >
+            <field name="name">Movie Ticket Booking</field>
+            <field name="description">Helps you manage movie ticket booking.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- PRIVILEGE -->
+        <record id="movie_category_user_levels_privilege" model="res.groups.privilege" >
+            <field name="name">Staff privileges</field>
+            <field name="category_id" ref="movie_ticket_booking.movie_category_user_levels_categ" />
+        </record>
+
+        <!-- GROUP COUNTER STAFF -->
+        <record id="group_counter_staff" model="res.groups">
+            <field name="name">Counter Staff</field>
+            <field name="privilege_id" ref="movie_ticket_booking.movie_category_user_levels_privilege" />
+        </record>
+
+        <!-- GROUP FLOOR SUPERVISOR -->
+        <record id="group_floor_supervisor" model="res.groups">
+            <field name="name">Floor Supervisor</field>
+            <field name="privilege_id" ref="movie_ticket_booking.movie_category_user_levels_privilege" />
+            <!-- <field name="implied_ids" eval="[(4, ref('school_management.group_student'))]" /> -->
+            <field name="comment">can handle and see the details created by them</field>
+        </record>
+
+        <!-- GROUP CINEMA MANAGER -->
+        <record id="group_cinema_manager" model="res.groups">
+            <field name="name">Cinema Manager</field>
+            <field name="privilege_id" ref="movie_ticket_booking.movie_category_user_levels_privilege" />
+            <!-- <field name="implied_ids" eval="[(4, ref('school_management.group_student'))]" /> -->
+            <field name="comment">Full access privilages lies with them</field>
+        </record>
+
+    </data>
+</odoo>

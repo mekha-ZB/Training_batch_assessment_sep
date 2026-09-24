@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SEARCH VIEW -->
+    <record id="movie_halls_view_search" model="ir.ui.view">
+        <field name="name">movie.halls.view.search</field>
+        <field name="model">movie.halls</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="hall_name" />
+                <!-- <field name="hall_seats_ids" /> -->
+                <field name="hall_seat_count" />
+            </search>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="movie_halls_view_list" model="ir.ui.view">
+        <field name="name">halls.view.list</field>
+        <field name="model">movie.halls</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="hall_name" />
+                <!-- <field name="hall_seats_ids" /> -->
+                <field name="hall_seat_count" />
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="movie_halls_view_form" model="ir.ui.view">
+        <field name="name">halls.view.form</field>
+        <field name="model">movie.halls</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="hall_name" required="True" />
+                        <field name="hall_seats_ids" widget="many2many_tags" />
+                        <field name="hall_seat_count" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
