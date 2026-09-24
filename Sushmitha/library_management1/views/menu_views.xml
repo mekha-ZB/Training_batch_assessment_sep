@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+            id="menu_library_root"
+            name="Library Management"
+            sequence="10"/>
+    <menuitem
+            id="menu_library_book"
+            name="Books"
+            parent="menu_library_root"
+            action="action_library_book"
+            sequence="20"/>
+    <menuitem
+            id="menu_library_book_issue"
+            name="Book Issues"
+            parent="menu_library_root"
+            action="action_library_book_issue"
+            sequence="30"/>
+
+
+</odoo>

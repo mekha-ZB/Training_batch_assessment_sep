@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  Form View   -->
+    <record id="view_library_book_issued_form" model="ir.ui.view">
+        <field name="name">library.book.issue.form</field>
+        <field name="model">library.book.issue</field>
+        <field name="arch" type="xml">
+            <form string="Book Issue">
+                <header>
+                    <button name="action_mark_returned"
+                            string="Mark as Returned"
+                            type="object" class="btn-info"
+                            invisible="state != 'issued'"/>
+                    <button name="action_request_cancel"
+                            string="Request Cancellation"
+                            type="object" class="btn-secondary"
+                            invisible="state != 'issued'"/>
+                    <button name="action_approve_cancel"
+                            string="Approve Cancellation"
+                            type="object" class="btn-info"
+                            invisible="state != 'cancel_requested'"
+                            groups="library_management1.group_library_senior_librarian,library_management1.group_library_head_librarian"/>
+                    <button name="action_reject_cancel"
+                            string="Reject Cancellation"
+                            type="object" class="btn-info"
+                            invisible="state != 'cancel_requested'"
+                            groups="library_management1.group_library_senior_librarian,library_management1.group_library_head_librarian"/>
+
+                    <button name="action_send_email"
+                            string="Send Slip by Email"
+                            type="object"
+                            class="btn-info"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="issued,returned,cancel_requested,cancelled"/>
+
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"  required="True" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="book_id" required="True"/>
+                            <field name="member_id" required="True"/>
+                            <field name="user_id" required="True"/>
+                        </group>
+                        <group>
+                            <field name="issue_date" required="True"/>
+                            <field name="due_date" required="True"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--  List View   -->
+    <record id="view_library_book_issue_list" model="ir.ui.view">
+        <field name="name">library.book.issue.list</field>
+        <field name="model">library.book.issue</field>
+        <field name="arch" type="xml">
+            <list string="Book Issues">
+                <field name="name"/>
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <field name="user_id"/>
+                <field name="issue_date"/>
+                <field name="due_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+    <!--    search view-->
+    <record id="view_library_book_search" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="author"/>
+            </search>
+        </field>
+    </record>
+    <!--  Action  -->
+    <record id="action_library_book_issue" model="ir.actions.act_window">
+        <field name="name">Book Issues</field>
+        <field name="res_model">library.book.issue</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form_inherit_library_smart_button" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.library.smart.button</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_issued_books"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book">
+                        <field name="issued_books_count" widget="stat-info" string="Issued Books"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
