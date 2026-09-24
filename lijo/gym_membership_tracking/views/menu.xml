@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Root Menu -->
+
+    <menuitem id="menu_gym_membership_root"
+              name="Gym Membership"/>
+
+    <!--  Parent Menu  -->
+
+    <menuitem id="menu_membership_details"
+              name="Membership"
+              parent="menu_gym_membership_root"
+              action="action_membership_details"
+              sequence="1"/>
+
+    <menuitem id="menu_membership_plan"
+              name="Membership Plan"
+              parent="menu_gym_membership_root"
+              action="action_membership_plan"
+              sequence="2"/>
+</odoo>
+

@@ -1,0 +1,1 @@
+from . import membership_details, membership_plan, res_partner_inherit, membership_history

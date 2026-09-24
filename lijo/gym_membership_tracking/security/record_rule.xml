@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+
+        <record id="rule_front_desk_staff_read_only_own_record" model="ir.rule">
+            <field name="name">Front Desk Staff : Manage only own records</field>
+            <field name="model_id" ref="model_membership_details"/>
+            <field name="domain_force">[('create_uid', '=', user.id),]</field>
+            <field name="groups" eval="[(4, ref('gym_membership_tracking.group_front_desk_staff'))]"/>
+            <field name="perm_read" eval="True" />
+            <field name="perm_write" eval="True" />
+            <field name="perm_create" eval="True" />
+            <field name="perm_unlink" eval="False" />
+        </record>
+
+    </data>
+</odoo>

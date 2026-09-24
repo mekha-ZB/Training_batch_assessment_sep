@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_member_details,member.details,model_membership_details,base.group_system,1,1,1,1
+access_membership_plan,membership.plan,model_membership_plan,base.group_system,1,1,1,1
+access_membership_history,membership.history,model_membership_history,base.group_user,1,1,1,1
+
+
+membership_access_front_desk_staff,front.desk.staff,model_membership_details,gym_membership_tracking.group_front_desk_staff,1,1,1,0
+plan_access_front_desk_staff,front.desk.staff,model_membership_plan,gym_membership_tracking.group_front_desk_staff,1,0,0,0
+
+membership_access_floor_supervisor,floor.supervisor,model_membership_details,gym_membership_tracking.group_floor_supervisor,1,1,1,1
+plan_access_floor_supervisor,floor.supervisor,model_membership_plan,gym_membership_tracking.group_floor_supervisor,1,1,1,0
+
+membership_access_gym_manager,gym.manager,model_membership_details,gym_membership_tracking.group_gym_manager,1,1,1,1
+plan_access_gym_manager,gym.manager,model_membership_plan,gym_membership_tracking.group_gym_manager,1,1,1,1

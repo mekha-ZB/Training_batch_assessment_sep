@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="mail_template_membership_details" model="mail.template">
+        <field name="name">Membership Card Email</field>
+        <field name="model_id" ref="model_membership_details"/>
+        <field name="subject">Your Gym Membership Card</field>
+        <field name="email_from">{{ user.email }}</field>
+        <field name="email_to">{{ object.member_id.email }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello<t t-out="object.member_id.name"/>,
+                </p>
+                <p>
+                    Please find your gym membership card attached
+                    to this email.
+                </p>
+                <p>
+                    <strong>Plan:</strong>
+                    <t t-out="object.plan_id.plan_name"/>
+                </p>
+                <p>
+                    <strong>Start Date:</strong>
+                    <t t-out="object.start_date"/>
+                </p>
+                <p>
+                    <strong>End Date:</strong>
+                    <t t-out="object.end_date"/>
+                </p>
+                <p>
+                    Thank you.
+                </p>
+            </div>
+        </field>
+
+        <field name="report_template_ids"
+               eval="[(4, ref('gym_membership_tracking.action_membership_card_report'))]"/>
+
+    </record>
+</odoo>
+
+
+

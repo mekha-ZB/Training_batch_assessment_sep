@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_member_details_list" model="ir.ui.view">
+        <field name="name">member.details.list</field>
+        <field name="model">membership.details</field>
+        <field name="arch" type="xml">
+            <list>
+
+                <field name="member_id"/>
+                <field name="phone"/>
+                <field name="plan_id"/>
+                <field name="status" widget="badge" decoration-success="status == 'active'"
+                       decoration-danger="status == 'expired'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_member_details_form" model="ir.ui.view">
+        <field name="name">member.details.form</field>
+        <field name="model">membership.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="send_mail"
+                            type="object"
+                            string="Send Mail"
+                            class="oe_stat_button"/>
+
+                    <button name="submit_cancellation_request"
+                            string="Submit Cancellation"
+                            type="object"
+                            class="btn-primary"
+                            groups="gym_membership_tracking.group_front_desk_staff,base.group_system"
+                            invisible="status != 'active'"/>
+
+                    <button name="approve_cancellation_request"
+                            string="Approve Cancellation"
+                            type="object"
+                            class="btn-primary"
+                            invisible="status not in ('cancellation_requested')"
+                            groups="gym_membership_tracking.group_floor_supervisor,gym_membership_tracking.group_gym_manager,base.group_system"/>
+
+                    <button name="reject_cancellation_request"
+                            string="Reject Cancellation"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="status not in ('cancellation_requested')"
+                            groups="gym_membership_tracking.group_floor_supervisor,gym_membership_tracking.group_gym_manager,base.group_system"/>
+
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="seq_num" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="member_id" required="True"/>
+                            <field name="phone"/>
+                            <field name="gender"/>
+                            <field name="age"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="plan_id" required="True"/>
+                            <field name="start_date"/>
+                            <field name="end_date" readonly="1" force_save="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Cancel Membership">
+                            <field name="cancellation_request" placeholder="Enter Cancellation Request"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+
+
+    </record>
+
+    <record id="view_member_details_search" model="ir.ui.view">
+        <field name="name">member.details.search</field>
+        <field name="model">membership.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="member_id"/>
+                <field name="plan_id"/>
+
+                <!-- Filter -->
+                <filter name="active_membership" string="Active" domain="[('status', '=', 'active')]"/>
+                <filter name="expired_membership" string="Expired" domain="[('status', '=', 'expired')]"/>
+
+                <!-- Group By -->
+                <group>
+
+                    <filter name="group_by_plan" string="Membership Plan" context="{'group_by': 'member_id'}"/>
+                    <filter name="group_by_state" string="Gender" context="{'group_by': 'gender'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!--  Member Details Action  -->
+
+    <record id="action_membership_details" model="ir.actions.act_window">
+        <field name="name">Membership</field>
+        <field name="res_model">membership.details</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_member_details_search"/>
+    </record>
+
+</odoo>

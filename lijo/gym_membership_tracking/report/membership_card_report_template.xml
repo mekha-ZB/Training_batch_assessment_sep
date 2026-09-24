@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="membership_card_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="">
+                    <div class="card"
+                         style="width: 400px; border: 2px solid #333; padding: 15px; border-radius: 8px; margin: auto;">
+                        <h3 style="text-align: center; margin-top: 0;">Membership Card</h3>
+                        <p>
+                            <strong>Name:</strong>
+                            <span t-field="o.member_id.name"/>
+                        </p>
+                        <p>
+                            <strong>Phone:</strong>
+                            <span t-field="o.phone"/>
+                        </p>
+                        <p>
+                            <strong>Email:</strong>
+                            <span t-field="o.email"/>
+                        </p>
+                        <p>
+                            <strong>Membership_plan:</strong>
+                            <span t-field="o.plan_id.plan_name"/>
+                        </p>
+                        <p>
+                            <strong>start_date:</strong>
+                            <span t-field="o.start_date"/>
+                        </p>
+                        <p>
+                            <strong>End Date:</strong>
+                            <span t-field="o.end_date"/>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="paperformat_label_sheet" model="report.paperformat">
+        <field name="name">A4 Label Sheet</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">100</field>
+        <field name="page_width">140</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">12</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="disable_shrinking" eval="True"/>
+        <field name="dpi">96</field>
+    </record>
+</odoo>
+

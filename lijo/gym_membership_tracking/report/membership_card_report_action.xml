@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_membership_card_report" model="ir.actions.report">
+        <field name="name">Membership Card</field>
+        <field name="model">membership.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gym_membership_tracking.membership_card_report_template</field>
+        <field name="report_file">gym_membership_tracking.membership_card_report_template</field>
+        <field name="binding_model_id" ref="model_membership_details"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(6, 0, [ref('gym_membership_tracking.group_floor_supervisor'),ref('gym_membership_tracking.group_gym_manager')])]"/>
+        <field name="paperformat_id" ref="gym_membership_tracking.paperformat_label_sheet"/>
+    </record>
+</odoo>
