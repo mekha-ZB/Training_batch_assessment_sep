@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_salon_appointment" model="ir.ui.view">
+        <field name="name">salonappointment.list</field>
+        <field name="model">salon.appointment</field>
+        <field name="arch" type="xml">
+            <list string="Salon Appointment">
+                <field name="customer_id"/>
+                <field name="stylish_id"/>
+                <field name="service_id"/>
+                <field name="appointment_date_time"/>
+                <field name="notes"/>
+
+
+
+                <field name="state"
+                        widget="badge"
+                        decoration-success="state == 'booked'"
+                        decoration-info="state == 'cancellation requested'"
+                        decoration-danger="state == 'cancelled'"/>
+
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_salon_appointment_form" model="ir.ui.view">
+        <field name="name">salonappointment.form</field>
+        <field name="model">salon.appointment</field>
+        <field name="arch" type="xml">
+            <form string=" service">
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="booked,completed,cancelled"/>
+
+                    <button name="action_request_cancellation"
+                            string="Request Cancellation"
+                            type="object"
+                            class="btn-secondary"
+                            groups="salon_appointment_booking.group_receptionist,base.group_system"
+                            invisible="state != 'booked'"/>
+
+
+                    <button name="action_approved"
+                            string="Approved"
+                            type="object"
+                            class="btn-secondary"
+                            groups="salon_appointment_booking.group_supervisor,salon_appointment_booking.group_salon_manager"
+                            invisible="state != 'cancellation requested'"/>
+
+
+                    <button name="action_rejected"
+                            string="Rejected"
+                            type="object"
+                            class="btn-secondary"
+                            groups="salon_appointment_booking.group_supervisor,salon_appointment_booking.group_salon_manager"
+                            invisible="state != 'cancellation requested'"/>
+
+                    <button name="send_mail" type="object" string="Send Mail" class="oe_stat_button"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="appointment_number" readonly="1"/>
+
+                        </h1>
+
+                    </div>
+
+
+                    <group>
+                        <group string="Identification">
+                            <field name="customer_id" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="service_id" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="stylish_id"  domain="[('id', 'in', stylish_list_ids)]" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="stylish_list_ids" widget="many2many_tags" invisible="1" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="appointment_date_time" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="notes" readonly="state in ['cancelled' , 'completed']"/>
+
+
+
+
+
+
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_saloon_appointment_search" model="ir.ui.view">
+    <field name="name">salonappointment.search</field>
+    <field name="model">salon.appointment</field>
+    <field name="arch" type="xml">
+        <search string="Search Appointment">
+
+            <field name="customer_id"/>
+
+
+            <filter
+                name="booked_appointments"
+                string="Booked Appointments"
+                domain="[('state', '=', 'booked')]"
+            />
+
+            <filter
+                name="cancelled_appointments"
+                string="Cancelled Appointments"
+                domain="[('state', '=', 'cancelled')]"
+            />
+
+
+            <group>
+
+                <filter
+                name="group_by_state"
+                string="Status"
+                context="{'group_by':'state'}"
+            />
+
+
+                <filter
+                name="group_by_service"
+                string="Service"
+                context="{'group_by':'service_id'}"
+            />
+
+            </group>
+
+
+        </search>
+    </field>
+</record>
+
+    <record id="action_salon_appointment" model="ir.actions.act_window">
+        <field name="name">Salon Appointment</field>
+        <field name="res_model">salon.appointment</field>
+        <field name="view_mode">list,form,search</field>
+    </record>
+
+
+
+    <menuitem id="menu_salon_appointment"
+              name="Appointment"
+              parent="menu_salon_root"
+              action="action_salon_appointment"
+              sequence="10"/>
+
+</odoo>

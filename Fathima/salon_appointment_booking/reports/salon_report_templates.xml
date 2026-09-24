@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_salon_report_details">
+
+        <t t-call="web.html_container">
+
+            <t t-call="web.external_layout">
+
+                <div class="page" style="margin-left:270px">
+
+
+                    <t t-foreach="docs" t-as="salon">
+                        <h2>Appointment Confirmation:
+                            <div t-field="salon.appointment_number"/>
+                        </h2>
+                        <p>
+                            <b>Customer Name:</b>
+                            <span t-field="salon.customer_id"/>
+                        </p>
+                        <p>
+                            <b>Date of Appointment:</b>
+                            <span t-field="salon.appointment_date_time"/>
+                        </p>
+                        <p>
+                            <b>Selected Service:</b>
+                            <span t-field="salon.service_id"/>
+                        </p>
+                        <p>
+                            <b>Stylist:</b>
+                            <span t-field="salon.stylish_id"/>
+                        </p>
+                    </t>
+
+
+                </div>
+
+
+
+
+            </t>
+        </t>
+
+
+    </template>
+
+
+
+    <template id="custom_external_layout_footer"
+              inherit_id="web.external_layout_standard">
+
+        <xpath expr="//div[contains(@class, 'footer')]" position="inside">
+
+            <div class="text-center">
+                Page
+                <span class="page"/>
+                of
+                <span class="topage"/>
+            </div>
+
+        </xpath>
+
+    </template>
+</odoo>
+
+

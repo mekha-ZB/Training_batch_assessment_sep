@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email Template to send Purchase Order email to the Vendor -->
+    <record id="mail_template_salon_details" model="mail.template">
+        <field name="name">Appointment Confirmation Email Demo Template</field>
+        <field name="model_id" ref="salon_appointment_booking.model_salon_appointment"/>
+        <field name="email_from">{{ user.email }}</field>
+        <field name="email_to">{{ object.customer_id.email }}</field>
+        <field name="subject">Appointment Confirmation {{ object.name }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                <p>Dear
+                    <strong>
+                        <t t-out="object.customer_id.name"/>
+                    </strong>
+                </p>
+                <p>
+                    We are pleased to confirm your <b><span t-out="object.service_id.service_name" /></b> at <b><span t-out="object.appointment_date_time" /></b> and Your stylist is <b><span t-out="object.stylish_id.name"/></b>
+                </p>
+<!--                <table style="border-collapse: collapse; width: 100%;">-->
+<!--                    <tr>-->
+<!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
+<!--                            Field-->
+<!--                        </th>-->
+<!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
+<!--                            Details-->
+<!--                        </th>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            Customer Name-->
+<!--                        </td>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            <t t-out="object.customer_id.name"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            Date of Appointment-->
+<!--                        </td>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            <t t-out="object.appointment_date_time"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                           Selected Service-->
+<!--                        </td>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            <t t-out="object.service_id.service_name"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                           Stylist-->
+<!--                        </td>-->
+<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+<!--                            <t t-out="object.stylish_id.name "/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                </table>-->
+                <p>
+                    Kindly confirm details of this appointment and we will provide you, the quality service.
+                </p>
+                <p>Best Regards,</p>
+                <p>
+                    <strong>
+                        <t t-out="user.name"/>
+                    </strong>
+                </p>
+            </div>
+        </field>
+        <!-- Attach the generated PDF report in the email composer -->
+        <field name="report_template_ids"
+            eval="[(4, ref('salon_appointment_booking.action_salon_details_report'))]" />
+    </record>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+
+        <record id="rule_receptionist_read_only" model="ir.rule">
+            <field name="name">User : read only rules</field>
+            <field name="model_id" ref="model_salon_appointment"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('salon_appointment_booking.group_receptionist'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+
+        </record>
+
+    </data>
+</odoo>

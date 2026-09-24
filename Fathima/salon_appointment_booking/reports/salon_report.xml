@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--    Report Function in Expense -->
+    <record id="action_salon_details_report" model="ir.actions.report">
+        <field name="name">Salon Appointment Report</field>
+        <field name="model">salon.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">salon_appointment_booking.report_salon_report_details</field>
+        <field name="report_file">salon_appointment_booking.report_salon_report_details</field>
+        <field name="binding_model_id" ref="salon_appointment_booking.model_salon_appointment"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(6, 0, [ref('salon_appointment_booking.group_salon_manager'),ref('base.group_system')])]"/>
+
+    </record>
+
+
+</odoo>

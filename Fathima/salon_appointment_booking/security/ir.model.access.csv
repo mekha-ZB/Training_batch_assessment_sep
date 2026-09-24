@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_salon_service,salon.service,model_salon_service,,1,1,1,1
+access_salon_appointment,salon.appointment,model_salon_appointment,base.group_system,1,1,1,1
+
+
+
+access_salon_appointment_receptionist,salon.appointment.receptionist,model_salon_appointment,salon_appointment_booking.group_receptionist,1,1,1,0
+access_salon_appointment_supervisor,salon.appointment.supervisor,model_salon_appointment,salon_appointment_booking.group_supervisor,1,1,0,1
+access_salon_appointment_salon_manager,salon.appointment.salon.manager,model_salon_appointment,salon_appointment_booking.group_salon_manager,1,1,1,1
+
+
