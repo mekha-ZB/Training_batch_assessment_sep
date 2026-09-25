@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+
+        <record id="rule_agent_view" model="ir.rule">
+            <field name="name">Agent: rules</field>
+            <field name="model_id" ref="model_booking_details"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('car_rental_booking.group_rental_agent'))]"/>
+        </record>
+
+         <record id="rule_supervisor" model="ir.rule">
+            <field name="name">Supervisor: rules</field>
+            <field name="model_id" ref="model_booking_details"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('car_rental_booking.group_branch_supervisor'))]"/>
+        </record> 
+     
+        <record id="rule_manager" model="ir.rule">
+            <field name="name">Manager: rules</field>
+            <field name="model_id" ref="model_booking_details"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('car_rental_booking.group_branch_manager'))]"/>
+        </record> 
+
+    </data>
+</odoo>

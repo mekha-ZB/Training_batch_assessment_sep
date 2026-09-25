@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_booking_list" model="ir.ui.view">
+        <field name="name">booking.list</field>
+        <field name="model">booking.details</field>
+
+        <field name="arch" type="xml">
+            <list>
+                <field name="customer_id" required="True"/>
+                <field name="model" required="True"/>
+                <field name="pick_up_date" required="True"/>
+                <field name="return_date" required="True"/>
+                <field name="daily_rate"/>
+                <field name="rental_days"/>
+                <field name="total_cost"/>
+                <field name ="state" widget="badge" decoration-success="state=='confirmed'" decoration-danger="state=='cancelled'" decoration-primary="state=='approve'" decoration-warning="state=='cancel'" decoration-info="state=='returned'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_booking_form" model="ir.ui.view">
+        <field name="name">booking.form</field>
+        <field name="model">booking.details</field>
+
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="confirm_button" type="object" string="Confirm" invisible="state!= 'draft'"/>
+                    <button name="send_email" type="object" string="Send Email" />
+                    <button name="return_button" type="object" string="Returned" groups="car_rental_booking.group_rental_agent"/>
+                    <button name="cancel_request_button" type="object" string="Request For Cancellation" groups="car_rental_booking.group_rental_agent" invisible="state in ['draft','cancelled','approve']"/>
+                    <button name="approve_button" type="object" string="Approve" groups="car_rental_booking.group_branch_supervisor,car_rental_booking.group_branch_manager" invisible="state!= 'cancelled'"/>
+                    <button name="reject_button" type="object" string="Reject" groups="car_rental_booking.group_branch_supervisor,car_rental_booking.group_branch_manager" invisible="state!= 'cancelled'"/>
+                    <button name="cancel_button" type="object" string="Cancelled" groups="car_rental_booking.group_branch_manager"/>
+                    <field name="state" string="State" widget="statusbar" statusbar_visible="draft,confirm,returned"/>
+                </header>
+                <sheet>
+                     <div class="oe_title">
+                        <strong><field name="seq"/></strong>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer_id" readonly="state in 'cancel'"/>
+                            <field name="model" readonly="state in 'cancel'"/>
+                            <field name="pick_up_date" readonly="state in 'cancel'"/>
+                            <field name="return_date" readonly="state in 'cancel'"/>
+                        </group>
+                        <group>
+                            <field name="daily_rate" readonly="state in 'cancel'"/>
+                            <field name="rental_days" readonly="state in 'cancel'"/>
+                            <field name="total_cost" readonly="state in 'cancel'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_booking_kanban" model="ir.ui.view">
+        <field name="name">booking.kanban</field>
+        <field name="model">booking.details</field>
+
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="customer_id"/>
+                <field name="model"/>
+                <field name="pick_up_date"/>
+                <field name="return_date"/>
+                <field name="daily_rate"/>
+                <field name="rental_days"/>
+                <field name="total_cost"/>
+                <field name ="state" widget="badge" decoration-success="state=='confirmed'" decoration-danger="state=='cancelled'" decoration-primary="state=='approve'" decoration-warning="state=='cancel'" decoration-info="state=='returned'"/>                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong>
+                                <field name="customer_id"/>
+                            </strong>
+                            <div>
+                                <strong>Type:</strong>
+                                <field name="model"/>
+                            </div>
+                            <div>
+                                <strong>Area:</strong>
+                                <field name="pick_up_date"/>
+                            </div>
+                            <div>
+                                <strong>Bedrooms:</strong>
+                                <field name="return_date"/>
+                            </div>
+                            <div>
+                                <strong>Price:</strong>
+                                <field name="daily_rate"/>
+                            </div>
+                            <div>
+                                <strong>Agent:</strong>
+                                <field name="rental_days"/>
+                            </div>
+                            <div>
+                                <strong>Furnished:</strong>
+                                <field name="total_cost"/>
+                            </div>
+                            <div>
+                                <strong>Status:</strong>
+                                <field name ="state" widget="badge" decoration-success="state=='confirmed'" decoration-danger="state=='cancelled'" decoration-primary="state=='approve'" decoration-warning="state=='cancel'" decoration-info="state=='returned'"/>                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_booking_search" model="ir.ui.view">
+        <field name="name">booking.search</field>
+        <field name="model">booking.details</field>
+        <field name="arch" type="xml">
+            <search string="Search Bookings">
+                <field name="customer_id"/>
+                <filter
+                    name="confirmed_booking"
+                    string="Confirmed Bookings"
+                    domain="[('state', '=', 'confirmed')]"
+                />
+                <filter
+                    name="cancelled_booking"
+                    string="Cancelled Bookings"
+                    domain="[('state', '=', 'cancel')]"
+                />
+                <filter
+                    name="request_for_cancellation_booking"
+                    string="Request for Cancellation Bookings"
+                    domain="[('state', '=', 'cancelled')]"
+                />
+                <filter
+                    name="returned_booking"
+                    string="Returned Bookings"
+                    domain="[('state', '=', 'returned')]"
+                />
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_booking" model="ir.actions.act_window">
+        <field name="name">Booking</field>
+        <field name="res_model">booking.details</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <menuitem
+            id="menu_booking"
+            name="Booking"
+            action="action_booking"
+            parent="menu_vehicle"
+            sequence="2"/>
+
+
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_details,access.vehicle.details,model_vehicle_details,base.group_system,1,1,1,1
+access_booking_details,access.booking.details,model_booking_details,base.group_system,1,1,1,1
+
+
+access_agent_group,access.agent.group,model_booking_details,car_rental_booking.group_rental_agent,1,1,1,0
+access_agents_group,access.agents.group,model_vehicle_details,car_rental_booking.group_rental_agent,1,0,0,0
+
+access_supervisor,access.supervisor,model_booking_details,car_rental_booking.group_branch_supervisor,1,1,1,0
+access_supervisor_group,access.supervisor.group,model_vehicle_details,car_rental_booking.group_branch_supervisor,1,1,1,0
+
+access_branches_manager,access.branches.manager,model_booking_details,car_rental_booking.group_branch_manager,1,1,1,1
+access_branch_manager,access.branch.manager,model_vehicle_details,car_rental_booking.group_branch_manager,1,1,1,1

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_class_report" model="ir.actions.report">
+        <field name="name">Booking Report</field>
+        <field name="model">booking.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">car_rental_booking.booking_report_details</field>
+        <field name="report_file">car_rental_booking.booking_report_details</field>
+        <field name="binding_model_id" ref="car_rental_booking.model_booking_details"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(4, ref('car_rental_booking.group_branch_manager'))]"/>    
+    </record>
+
+
+</odoo>

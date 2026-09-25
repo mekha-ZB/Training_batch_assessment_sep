@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="booking_report_details">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="booking">
+                <div class="page">
+                    <div class="page">
+                        <h1 style="text-align:center;"><strong>Booking Details: </strong></h1>
+                        <br/>
+                        <p style="font-size:50px; text-align:left; padding-left:40px"> <span  t-esc="booking.customer_id.name"/></p>  
+                        <br/>
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Model: </b> <span t-esc="booking.model.model"/></p>
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Pickup Date: </b> <span t-esc="booking.pick_up_date"/></p>  
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Return Date: </b> <span t-esc="booking.return_date"/></p> 
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Daily Rate: </b> <span t-esc="booking.daily_rate"/></p>
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Rental Days: </b> <span t-esc="booking.rental_days"/></p>
+                        <p style="font-size:30px; text-align:left; padding-left:40px;"><b>Rental Cost: </b> <span t-esc="booking.total_cost"/></p>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
