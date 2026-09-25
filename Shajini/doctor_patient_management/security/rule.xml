@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="rule_front_desk_staff_details" model="ir.rule">
+        <field name="name">Front Desk Staff - Own Staff Details</field>
+        <field name="model_id" ref="doctor_patient_management.model_appointment"/>
+        <field name="groups" eval="[(4, ref('doctor_patient_management.group_front_desk_staff'))]"/>
+        <field name="domain_force">[('booked_by', '=', user.id)]</field>
+    </record>
+
+
+    <record id="rule_clinic_supervisor" model="ir.rule">
+        <field name="name">Clinic Supervisor - All Staff Details</field>
+        <field name="model_id" ref="doctor_patient_management.model_appointment"/>
+        <field name="groups" eval="[(4, ref('doctor_patient_management.group_clinic_supervisor'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+
+    <record id="rule_clinic_manager" model="ir.rule">
+        <field name="name">Clinic Manager - All Appointments</field>
+        <field name="model_id" ref="doctor_patient_management.model_appointment"/>
+        <field name="groups" eval="[(4, ref('doctor_patient_management.group_clinic_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

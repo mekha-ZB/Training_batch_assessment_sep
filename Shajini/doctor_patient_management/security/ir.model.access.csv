@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_appointment_details_front_desk_staff,appointment details front desk staff,model_appointment,doctor_patient_management.group_front_desk_staff,1,1,1,0
+access_appointment_details_clinic_supervisor,appointment details clinic supervisor,model_appointment,doctor_patient_management.group_clinic_supervisor,1,1,1,0
+access_appointment_details_clinic_manager,appointment details clinic manager,model_appointment,doctor_patient_management.group_clinic_manager,1,1,1,1
+access_reminder_wizard_user,reminder.wizard.user,model_appointment_reminder_wizard,base.group_user,1,1,1,1
+access_report_wizard_user,report.wizard.user,model_hospital_report_wizard,base.group_user,1,1,1,1
+access_specialization_user,specialization.user,model_specialization,base.group_user,1,1,1,1
+access_cancellation_user,cancellation.user,model_appointment_cancellation_request,base.group_user,1,1,1,1
+access_cancellation_wizard_user,cancellation.user,model_appointment_cancellation_request_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_management_service" model="ir.actions.report">
+        <field name="name">Appointment Report</field>
+        <field name="model">appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">doctor_patient_management.report_management_template</field>
+        <field name="report_file">doctor_patient_management.report_management_template</field>
+    </record>
+</odoo>

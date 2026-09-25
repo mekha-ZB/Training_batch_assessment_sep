@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hospital_xlsx_report" model="ir.actions.report">
+        <field name="name">Hospital XLSX Report</field>
+        <field name="model">hospital.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">doctor_patient_management.clinic_xlsx_report</field>
+        <field name="report_file">doctor_patient_management.clinic_xlsx_report</field>
+    </record>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_appointment_detail" model="mail.template">
+        <field name="name">Appointment Demo Template</field>
+        <field name="model_id" ref="doctor_patient_management.model_appointment"/>
+        <field name="email_from">{{ object.env.user.email }}</field>
+        <field name="email_to">{{ object.patient_id.email }}</field>
+        <field name="subject">Your Details - {{ object.patient_id.name }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: white;">
+                <p>Dear <strong><t t-out="object.patient_id.name"/></strong>,</p>
+                <p>
+                    We are pleased to confirm your details.
+                    Please find the details below:
+                </p>
+                <table style="border: 1px solid #ddd; border-collapse: collapse; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Sequence Number</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Date and time</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Reason for visit</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.seq_number"/></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.date_and_time"/></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.reason_for_visit"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Kindly confirm receipt of this email.</p>
+                <p>Best Regards,</p>
+                <p><t t-out="object.env.user.email"/></p>
+            </div>
+        </field>
+        <field name="report_template_ids"
+               eval="[(4, ref('doctor_patient_management.report_management_service'))]"/>
+    </record>
+</odoo>
+

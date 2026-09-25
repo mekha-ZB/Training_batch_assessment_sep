@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_appointment_graph" model="ir.ui.view">
+        <field name="name">appointment.graph</field>
+        <field name="model">appointment</field>
+        <field name="arch" type="xml">
+            <graph string="Appointment Analysis" type="bar">
+                <field name="state"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_appointment_pivot" model="ir.ui.view">
+        <field name="name">appointment.pivot</field>
+        <field name="model">appointment</field>
+        <field name="arch" type="xml">
+            <pivot string="Appointment Analysis">
+                <field name="doctor_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_appointment_reporting" model="ir.actions.act_window">
+        <field name="name">Appointment Reporting</field>
+        <field name="res_model">appointment</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+
+    <menuitem
+            id="menu_appointment_reporting"
+            name="Reporting"
+            parent="menu_reporting"
+            action="action_appointment_reporting"
+            groups="doctor_patient_management.group_clinic_manager"
+            sequence="510"/>
+</odoo>

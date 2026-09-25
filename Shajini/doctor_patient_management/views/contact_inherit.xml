@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_partner_form_clinic" model="ir.ui.view">
+        <field name="name">res.partner.form.clinic</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="is_doctor" invisible="is_company"/>
+                <field name="is_patient" invisible="is_company"/>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_patient_appointments"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-calendar"
+                        invisible="is_doctor">
+
+                    <field name="total_visits"
+                           widget="statinfo"
+                           string="Total Visits"/>
+
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
