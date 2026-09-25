@@ -23,7 +23,7 @@
         <record id="courier_operations_manager_rule" model="ir.rule">
             <field name="name">Courier Operations Manager Records Access</field>
             <field name="model_id" ref="model_pickup_booking"/>
-            <field name="groups" eval="[(4, ref('group_courier_operations_manager'))]"/>
+            <field name="groups" eval="[(4, ref('group_courier_manager'))]"/>
             <field name="domain_force">[]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
