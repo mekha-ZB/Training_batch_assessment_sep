@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_event_details,event.details,model_event_details,base.group_system,1,1,1,1
+access_registration_details,registration.details,model_registration_details,base.group_system,1,1,1,1
+access_event_coordinator_event,event.cordinator.event.group,model_event_details,event_management.event_coordinator_users,1,1,1,0
+access_event_coordinator_registration,event.cordinator.registration.group,model_registration_details,event_management.event_coordinator_users,1,1,1,0
+access_senior_coordinator_registration,senior.cordinator.registration.group,model_registration_details,event_management.event_senior_coordinator_users,1,1,1,0
+access_senior_coordinator_event,senior.cordinator.event.group,model_event_details,event_management.event_senior_coordinator_users,1,1,1,0
+access_operations_manager_registration,operations.manager.cordinator.registration.group,model_registration_details,event_management.operations_manager_users,1,1,1,1
+access_operations_manager_event,operations.manager.cordinator.event.group,model_event_details,event_management.operations_manager_users,1,1,1,1
+access_wizard,wizardcordinator.event.group,model_cancellation_history_wizard,event_management.event_coordinator_users,1,1,1,1

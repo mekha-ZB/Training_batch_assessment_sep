@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <record id="event_sequence" model="ir.sequence">
+            <field name="name">Event Seq</field>
+            <field name="code">event.seq</field>
+            <field name="prefix">EVT/%(year)s/</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="registration_sequence" model="ir.sequence">
+            <field name="name">registration Seq</field>
+            <field name="code">registration.seq</field>
+            <field name="prefix">ERN/%(year)s/</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="event_coordinator_event_own_records" model="ir.rule">
+        <field name="name">EventCoordinator: Own Event Records</field>
+        <field name="model_id" ref="model_event_details"/>
+        <field name="groups" eval="[(4, ref('event_management.event_coordinator_users'))]"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+    </record>
+    <record id="event_coordinator_registration_own_records" model="ir.rule">
+        <field name="name">EventCoordinator: Own Registration Records</field>
+        <field name="model_id" ref="model_registration_details"/>
+        <field name="groups" eval="[(4, ref('event_management.event_coordinator_users'))]"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+    </record>
+</odoo>

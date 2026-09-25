@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.module.category" id="event_staff_category">
+            <field name="name">Event Management</field>
+            <field name="description">Event Management</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record model="res.groups.privilege" id="event_staff_privilege">
+            <field name="name">Event Management Privilege</field>
+            <field name="category_id" ref="event_staff_category" />
+
+        </record>
+
+        <record id="event_coordinator_users" model="res.groups">
+            <field name="name">Event Coordinator</field>
+            <field name="privilege_id" ref="event_staff_privilege" />
+        </record>
+
+        <record id="event_senior_coordinator_users" model="res.groups">
+            <field name="name">Senior Coordinator</field>
+            <field name="privilege_id" ref="event_staff_privilege"/>
+            
+        </record>
+
+        <record id="operations_manager_users" model="res.groups">
+            <field name="name">Operations Manager</field>
+            <field name="privilege_id" ref="event_staff_privilege"/>
+            
+        </record>
+
+    </data>
+
+
+</odoo>

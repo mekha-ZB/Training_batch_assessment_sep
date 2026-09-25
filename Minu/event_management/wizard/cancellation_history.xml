@@ -1,0 +1,34 @@
+<odoo>
+
+    <record id="cancellation_history_wizard_form" model="ir.ui.view">
+        <field name="name">cancellation.history.wizard.form</field>
+        <field name="model">cancellation.history.wizard</field>
+        <field name="arch" type="xml">
+            <form string="cancellation Wizard">
+                <group>
+                    <field name="reason"/>
+                    
+                </group>
+
+                <footer>
+                    <button name="reason_submit"
+                            string="Submit"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button string="Cancel"
+                            special="cancel"
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cancellation_history_wizard" model="ir.actions.act_window">
+        <field name="name">Cancellation Reason</field>
+        <field name="res_model">cancellation.history.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_registration_details">
+
+         <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <div class="row" >
+                    <div class="col-12 text-left">
+                        <h2>Registration Confirmation Details- <span t-field="docs.registration_ref"/></h2>
+                        
+                    </div>
+                </div>
+
+                <div >
+                    <div >
+                        <strong>Attendee Name:</strong> 
+                        <span t-field="docs.attendee_name.name"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Event Name:</strong> 
+                        <span t-field="docs.event_id.event_name"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Event Reference:</strong> 
+                        <span t-field="docs.event_id.event_ref"/>
+                    </div>
+                   <div> 
+                    <div class="col-6">
+                        <strong>Date:</strong> 
+                        <span t-field="docs.event_id.date_of_event"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Venue:</strong> 
+                        <span t-field="docs.event_id.event_venue"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Location:</strong> 
+                        <span t-field="docs.event_id.event_venue.street"/>,
+                        <div><span t-field="docs.event_id.event_venue.city"/>,<span t-field="docs.event_id.event_venue.state_id.name"/>,<span t-field="docs.event_id.event_venue.country_id.name"/></div>
+                    
+                    </div></div>
+                    <p>
+                        Thank you for registering for the event. We look forward to seeing you there!
+                    </p>
+                <div class="oe_structure"/>
+            </div>
+            </div>
+        </t>
+    </t>
+</template>
+
+</odoo>

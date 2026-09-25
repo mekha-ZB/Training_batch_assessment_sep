@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="registration_list_view" model="ir.ui.view">
+        <field name="name">registration.details.list</field>
+        <field name="model">registration.details</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="registration_ref" required="1" readonly="1"/>
+                <field name="event_id" string="Event Name" />
+                <field name="attendee_name" string="Attendee Name" />
+                <field name="registration_status" widget="badge" decoration-success="registration_status=='completed'" decoration-danger="registration_status=='cancelled'" decoration-warning="registration_status=='reject'" decoration-info="registration_status=='cancel_request'" decoration-primary="registration_status=='approved_cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="registration_form_view" model="ir.ui.view">
+        <field name="name">registration.details.form</field>
+        <field name="model">registration.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="send_mail" string='Send Confiramation Email' type='object' class='btn-primary' invisible="registration_status not in 'registered'"/>
+                    <field name="registration_status" widget="statusbar" statusbar_visible="registered,completed"/>
+                    <button name="request_cancel" string="Request Cancellation" type="object" invisible="registration_status in ['registered','cancel_request','cancelled','approved_cancel','reject']" groups='event_management.event_coordinator_users'/>
+                    <button name="approve_cancel" string="Approve Cancellation" type="object" invisible="registration_status not in 'cancel_request'" groups='event_management.event_senior_coordinator_users'/>
+                    <button name="reject_cancel" string="Reject Cancellation" type="object" invisible="registration_status not in 'cancel_request'" groups='event_management.event_senior_coordinator_users'/>
+                    <button name='cancel_button' string='Cancel' type='object' invisible="registration_status not in 'approved_cancel'" groups='event_management.operations_manager_users'/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="registration_ref" required="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="event_id" string="Event Name" readonly="registration_status in 'cancelled'" required="True"/>
+                        <field name="attendee_name" string="Attendee Name" domain="[('is_company', '=', False)] " readonly="registration_status in 'cancelled'" required="True"/>
+                        <field name="event_date" string="Event Date" readonly="registration_status in 'cancelled'"/>
+                        <field name="event_venue" string="Event Venue" readonly="registration_status in 'cancelled'"/>
+                        <field name="seats_remaining" string="Seats Remaining" invisible="registration_status in ['cancel_request','approved_cancel','cancelled']"/>
+                    </group>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="registration_search_view" model="ir.ui.view">
+        <field name="name">registration.search</field>
+        <field name="model">registration.details</field>
+
+        <field name="arch" type="xml">
+            <search>
+
+                <field name="event_id"/>
+                <field name="event_date"/>
+                <field name="event_venue"/>
+                 <group>
+                <filter name="group_by_state"
+                        string="Registration Status"
+                        context="{'group_by': 'registration_status'}"/>
+            </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_registration_details" model="ir.actions.act_window">
+        <field name="name">Registration Details</field>
+        <field name="res_model">registration.details</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_registrations"
+        name="Registrations"
+        sequence="20"
+        parent="menu_event_management"
+        action="action_registration_details" />
+</odoo>

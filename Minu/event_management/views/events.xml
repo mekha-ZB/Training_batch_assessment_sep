@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="event_list_view" model="ir.ui.view">
+        <field name="name">event.details.list</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="event_ref" required="1" readonly="1"/>
+                <field name="event_name" string="Event Name" />
+                <field name="date_of_event" string="Date" />
+                <field name="event_venue" string="Venue" domain="[('is_company', '=', True)]" />
+
+            </list>
+        </field>
+    </record>
+
+    <record id="event_form_view" model="ir.ui.view">
+        <field name="name">event.details.form</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="event_ref" required="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="event_name" string="Event Name" required="True"/>
+                        <field name="date_of_event" string="Date" required="True"/>
+                        <field name="event_venue" string="Venue" domain="[('is_company', '=', True)]" required="True" />
+                        <field name="capacity" string="Capacity" />
+                    </group>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="event_search_view" model="ir.ui.view">
+        <field name="name">event.search</field>
+        <field name="model">event.details</field>
+
+        <field name="arch" type="xml">
+            <search>
+
+                <field name="event_name"/>
+                <field name="date_of_event"/>
+                <field name="event_venue"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_event_details" model="ir.actions.act_window">
+        <field name="name">Event Details</field>
+        <field name="res_model">event.details</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_event_management"
+        name="Event Management"
+        sequence="10"
+        action="action_event_details" />
+    <menuitem
+        id="menu_event"
+        name="Events"
+        sequence="10"
+        parent="menu_event_management"
+        action="action_event_details" />
+</odoo>
