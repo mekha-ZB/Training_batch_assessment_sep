@@ -30,14 +30,14 @@
                     <button name="submit_cancellation_request"
                             string="Submit Cancellation"
                             type="object"
-                            class="btn-primary"
+                            class="btn-secondary"
                             groups="gym_membership_tracking.group_front_desk_staff,base.group_system"
                             invisible="status != 'active'"/>
 
                     <button name="approve_cancellation_request"
                             string="Approve Cancellation"
                             type="object"
-                            class="btn-primary"
+                            class="btn-secondary"
                             invisible="status not in ('cancellation_requested')"
                             groups="gym_membership_tracking.group_floor_supervisor,gym_membership_tracking.group_gym_manager,base.group_system"/>
 
@@ -45,27 +45,53 @@
                             string="Reject Cancellation"
                             type="object"
                             class="btn-secondary"
-                            invisible="status not in ('cancellation_requested')"
+                            invisible="status != 'cancellation_requested'"
                             groups="gym_membership_tracking.group_floor_supervisor,gym_membership_tracking.group_gym_manager,base.group_system"/>
 
-                    <field name="status" widget="statusbar"/>
+                    <button name="reset_to_draft"
+                            string="Reset To Draft"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="status != 'cancelled'"
+                            groups="gym_membership_tracking.group_floor_supervisor,gym_membership_tracking.group_gym_manager,base.group_system"/>
+
+                    <button name="%(gym_membership_tracking.action_open_membership_renewal_wizard)d"
+                            string="Renew"
+                            type="action"
+                            class="btn-primary"
+                            invisible="status != 'expired'"/>
+
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="draft,active,expired,cancelled"
+                           invisible="status == 'cancellation_requested'"/>
+
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="cancellation_requested,cancelled"
+                           invisible="status != 'cancellation_requested'"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1><field name="seq_num" readonly="1"/></h1>
+                        <h1>
+                            <field name="seq_num" readonly="1"/>
+                        </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="member_id" required="True"/>
-                            <field name="phone"/>
-                            <field name="gender"/>
-                            <field name="age"/>
-                            <field name="email"/>
+                            <field name="member_id" required="True" readonly="status == 'cancelled'"/>
+                            <field name="phone" readonly="status == 'cancelled'"/>
+                            <field name="gender" readonly="status == 'cancelled'"/>
+                            <field name="age" readonly="status == 'cancelled'"/>
+                            <field name="email" readonly="status == 'cancelled'"/>
                         </group>
                         <group>
-                            <field name="plan_id" required="True"/>
-                            <field name="start_date"/>
+                            <field name="plan_id" required="True" readonly="status in ('active','expired','cancelled')"
+                                   force_save="True"/>
+                            <field name="start_date" readonly="status in ('active','expired','cancelled')"
+                                   force_save="True"/>
                             <field name="end_date" readonly="1" force_save="True"/>
+                            <field name="membership_fee" readonly="1" force_save="True"/>
                         </group>
                     </group>
                     <notebook>
@@ -96,8 +122,8 @@
                 <!-- Group By -->
                 <group>
 
-                    <filter name="group_by_plan" string="Membership Plan" context="{'group_by': 'member_id'}"/>
-                    <filter name="group_by_state" string="Gender" context="{'group_by': 'gender'}"/>
+                    <filter name="group_by_plan" string="Membership Plan" context="{'group_by': 'plan_id'}"/>
+                    <filter name="group_by_state" string="Status" context="{'group_by': 'status'}"/>
 
                 </group>
             </search>

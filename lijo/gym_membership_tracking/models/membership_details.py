@@ -25,14 +25,15 @@ class MemberDetails(models.Model):
     plan_id = fields.Many2one(comodel_name='membership.plan', string='Plan')
     start_date = fields.Date(string='Start Date', default=fields.Date.today())
     end_date = fields.Date(string='End Date')
-    membership_fee = fields.Float(string='Membership Fee')
+    membership_fee = fields.Float(string='Fee')
 
     status = fields.Selection([
+        ('draft', 'Draft'),
         ('active', 'Active'),
         ('expired', 'Expired'),
         ('cancellation_requested', 'Cancellation Requested'),
         ('cancelled', 'Cancelled'),
-    ], string='Status',default='active')
+    ], string='Status', default='draft')
 
     cancellation_request = fields.Text(string='Note')
 
@@ -43,38 +44,36 @@ class MemberDetails(models.Model):
                 rec['seq_num'] = self.env['ir.sequence'].next_by_code('membership.details.code') or 'New'
         return super().create(vals_list)
 
-
     def submit_cancellation_request(self):
         if self.cancellation_request:
             self.status = 'cancellation_requested'
         else:
             raise ValidationError("Enter a cancellation request")
 
-
-    @api.onchange('plan_id', 'start_date', 'member_id')
+    @api.onchange('plan_id', 'start_date', 'member_id', 'end_date')
     def onchange_end_date(self):
+        today = date.today()
         for rec in self:
             if rec.member_id:
                 rec.phone = rec.member_id.phone
                 rec.email = rec.member_id.email
+
             if rec.plan_id and not rec.start_date:
                 rec.start_date = fields.Date.today()
+
             if rec.plan_id and rec.start_date:
                 rec.end_date = (rec.start_date + relativedelta(
                     months=rec.plan_id.duration_months) - relativedelta(days=1))
-            else:
-                rec.end_date = False
+                rec.membership_fee = rec.plan_id.membership_fee
 
+            if rec.end_date and rec.end_date >= today:
+                rec.status = 'active'
 
     @api.model
     def check_expired_records(self):
         today = date.today()
-        record_expire = self.search([('status', '=', 'active'), ('end_date', '<', today)])
+        record_expire = self.search([('end_date', '<', today)])
         record_expire.write({'status': 'expired'})
-
-        record_active = self.search([('status', '=', 'active'),('end_date', '>', today)])
-        record_active.write({'status': 'active'})
-
 
     def send_mail(self):
         template = self.env.ref('gym_membership_tracking.mail_template_membership_details', raise_if_not_found=False)
@@ -97,13 +96,14 @@ class MemberDetails(models.Model):
             },
         }
 
-
     def approve_cancellation_request(self):
         self.status = 'cancelled'
 
     def reject_cancellation_request(self):
         self.status = 'active'
 
+    def reset_to_draft(self):
+        self.status = 'draft'
 
     def unlink(self):
         for record in self:
@@ -116,14 +116,14 @@ class MemberDetails(models.Model):
                     )
         return super().unlink()
 
-
     def write(self, vals):
         if 'plan_id' in vals or 'start_date' in vals or 'end_date' in vals:
-            if self.plan_id and self.start_date and self.end_date:
-                self.env['membership.history'].create({
-                    'membership_id': self.member_id.id,
-                    'membership_plan': self.plan_id.plan_name,
-                    'start_date': self.start_date,
-                    'end_date': self.end_date,
-                })
+            for rec in self:
+                if rec.plan_id and rec.start_date and rec.end_date:
+                    self.env['membership.history'].create({
+                        'membership_id': rec.member_id.id,
+                        'membership_plan': rec.plan_id.plan_name,
+                        'start_date': rec.start_date,
+                        'end_date': rec.end_date,
+                    })
         return super().write(vals)

@@ -13,6 +13,8 @@
              'security/record_rule.xml',
              'security/ir.model.access.csv',
 
+             'wizard/views_membership_renewal.xml',
+
              'views/membership_details_views.xml',
              'views/membership_plan_views.xml',
              'views/res_partner_inherit_views.xml',

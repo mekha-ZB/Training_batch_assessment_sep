@@ -2,6 +2,7 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_member_details,member.details,model_membership_details,base.group_system,1,1,1,1
 access_membership_plan,membership.plan,model_membership_plan,base.group_system,1,1,1,1
 access_membership_history,membership.history,model_membership_history,base.group_user,1,1,1,1
+access_membership_renewal_wizard,membership.renewal.wizard,model_membership_renewal_wizard,base.group_user,1,1,1,1
 
 
 membership_access_front_desk_staff,front.desk.staff,model_membership_details,gym_membership_tracking.group_front_desk_staff,1,1,1,0

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_membership_renewal_wizard_form" model="ir.ui.view">
+        <field name="name">membership.renewal.wizard.form</field>
+        <field name="model">membership.renewal.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Renew Membership">
+                <group>
+                    <field name="plan_id" required="True"/>
+                    <field name="start_date"/>
+                    <field name="end_date" readonly="1" force_save="1"/>
+                    <field name="membership_fee" readonly="1" force_save="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_renew_membership"
+                            string="Renew"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button string="Cancel"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_membership_renewal_wizard" model="ir.actions.act_window">
+        <field name="name">Renew Membership</field>
+        <field name="res_model">membership.renewal.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

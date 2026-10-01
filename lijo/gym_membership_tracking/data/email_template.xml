@@ -9,7 +9,7 @@
         <field name="email_to">{{ object.member_id.email }}</field>
         <field name="body_html" type="html">
             <div>
-                <p>Hello<t t-out="object.member_id.name"/>,
+                <p>Hello <t t-out="object.member_id.name"/>,
                 </p>
                 <p>
                     Please find your gym membership card attached
