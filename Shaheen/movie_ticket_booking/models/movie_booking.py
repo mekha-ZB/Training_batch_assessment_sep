@@ -15,7 +15,7 @@ class MovieBooking(models.Model):
     seat_remaining = fields.Integer(string='Seat Remaining',compute="compute_seat_remaining")
     booking_sequence = fields.Char(string='Booking ID', default='New')
     status = fields.Selection([
-        ('booked','Booked'),
+        ('booked','Booking'),
         ('completed','Completed'),
         ('cancellation_request','Cancellation Request'),
         ('cancelled','Cancelled'),
@@ -28,13 +28,19 @@ class MovieBooking(models.Model):
                 vals['booking_sequence'] = self.env['ir.sequence'].next_by_code('movie.booking') or 'New'
         return super().create(vals_list)
     
+    @api.onchange('show_id')
+    def fetch_hall_id(self):
+        if not self.show_id:
+            self.hall_id = False
+            return
+        self.hall_id = self.show_id.movie_halls
+    
     @api.depends('total_seats_available')
     def compute_seat_remaining(self):
         for rec in self:
             # if not rec.total_seats_available:
             #     rec.seat_remaining = False
             #     continue
-            
             rec.seat_remaining = len(rec.total_seats_available)
             
     # def seat_available_smart_button(self):
@@ -63,9 +69,6 @@ class MovieBooking(models.Model):
                     ('hall_id', '=', rec.hall_id.id),
                     ('show_id', '=', rec.show_id.id),
                     ('status','in',['booked','completed','cancellation_request']),
-                    # ('status','=','completed'),
-                    # ('status','=','cancellation_request'),
-                    # ('status','=','cancelled'),
                     ]).mapped('number_of_seats')
                 rec.total_seats_available = rec.hall_id.hall_seats_ids - booked_seats
                 print('total_seats---',rec.total_seats_available)
@@ -93,6 +96,7 @@ class MovieBooking(models.Model):
                 'hide_mail_template_management_options': True,
                 'default_partner_ids': self.customer_id.ids,
                 'default_reply_to': self.customer_id.email,
+                # 'default_email_to': self.customer_id.email,
                 'force_email': True,
             }
     
@@ -115,41 +119,4 @@ class MovieBooking(models.Model):
                 'target': 'new',
                 'context': ctx,
             }
-            
-    # @api.depends('hall_id','show_id','status')
-        # def _total_seats_available_in_Audi(self):
-        #     for rec in self:
-        #         if rec.hall_id:
-                    # print('yes--------------------')
-                    # print(rec.hall_id.hall_seats_ids)
-                    # booked_seats = self.search([('status','=','booked')]).mapped('number_of_seats')
-                    # print('booked_seats ----',booked_seats)
-                    # total_seats =  set(rec.hall_id.hall_seats_ids.ids) - set(booked_seats.ids)
-                    # print('total_seats---',total_seats)
-                    
-                    # rec.write({'total_seats_available': [(6,0,list(total_seats))]})
-                # else:
-                    # rec.total_seats_available = False        
-            
-                       
-   
-                
-                
-                
-                
-                
-    # @api.depends('hall_id', 'show_id', 'status')
-    # def _total_seats_available_in_Audi(self):
-    #     for rec in self:
-    #         if not rec.hall_id:
-    #             rec.total_seats_available = False
-    #             continue
-
-    #         booked_seats = self.search([
-    #             ('hall_id', '=', rec.hall_id.id),
-    #             ('show_id', '=', rec.show_id.id),
-    #             ('status', '=', 'booked'),
-    #         ]).mapped('number_of_seats')
-
-    #         rec.total_seats_available = rec.hall_id.hall_seats_ids - booked_seats
             

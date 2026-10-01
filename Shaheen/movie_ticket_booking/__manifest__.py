@@ -15,6 +15,7 @@
         'security/record_rules.xml',
         
         'data/booking_sequence.xml',
+        'report/booked_ticket_template.xml',
         'data/movie_mail_template.xml',
         
         'views/movie_menu.xml',
@@ -24,7 +25,6 @@
         'views/movie_seats_views.xml',
         'views/movie_shows_views.xml',
         
-        'report/booked_ticket_template.xml',
     ],
 
     'installable': True,

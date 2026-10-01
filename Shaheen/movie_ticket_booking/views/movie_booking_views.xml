@@ -11,9 +11,9 @@
                 <field name="show_id" />
                 <field name="hall_id" />
                 <field name="number_of_seats" widget="many2many_tags" />
-                <field name="status" 
-                    widget="badge" 
-                    decoration-primary="status == 'booked'" 
+                <field name="status"
+                    widget="badge"
+                    decoration-primary="status == 'booked'"
                     decoration-success="status == 'completed'"
                     decoration-warning="status == 'cancellation_request'"
                     decoration-danger="status == 'cancelled'" />
@@ -33,10 +33,10 @@
                         <button string="Send Ticket" name="action_send_email" type="object"
                             class="oe_highlight"
                             invisible="status in ('booked','cancellation_request','cancelled')"
-                             />
+                        />
                     </div>
                     <div>
-                        <button string="Confirm" name="action_confirm" 
+                        <button string="Confirm" name="action_confirm"
                             type="object"
                             class="btn-primary"
                             invisible="status in ('completed','cancellation_request','cancelled')" />
@@ -46,8 +46,8 @@
                             invisible="status in ('booked','cancellation_request')" />
                     </div>
                     <div>
-                        <button string="Cancellation Request" name="action_cancel_request" type="object"
-
+                        <button string="Cancellation Request" name="action_cancel_request"
+                            type="object"
                             invisible="status in ('booked','cancellation_request','cancelled')" />
                     </div>
                     <div>
@@ -73,14 +73,17 @@
                         <div>
                             <group>
                                 <field name="customer_id" required="True"
-                                    domain="[('is_company', '!=', True)]" />
-                                <field name="show_id" />
-                                <field name="hall_id" />
+                                    domain="[('is_company', '!=', True)]"
+                                    options="{'no_quick_create': True, 'no_create': True}" />
+                                <field name="show_id" options="{'no_quick_create': True, 'no_create': True}" />
+                                <field name="hall_id" options="{'no_quick_create': True, 'no_create': True}" />
                                 <field name="total_seats_available" widget="many2many_tags" />
                                 <field
                                     name="number_of_seats"
                                     widget="many2many_tags"
                                     domain="[('id','=',total_seats_available)]"
+                                    options="{'no_quick_create': True, 'no_create': True}"
+                                    required="True"
                                 />
                             </group>
                         </div>

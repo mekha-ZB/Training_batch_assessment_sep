@@ -8,6 +8,7 @@
             <list>
                 <field name="movie_id" />
                 <field name="show_date" />
+                <field name="run_time" />
                 <field name="hall_id" />
             </list>
         </field>
@@ -21,9 +22,10 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="movie_id" required="True" />
+                        <field name="movie_id" required="True" options="{'no_quick_create': True, 'no_create': True}" />
                         <field name="show_date" />
-                        <field name="hall_id" />
+                        <field name="run_time" options="{'no_quick_create': True, 'no_create': True}" />
+                        <field name="hall_id" options="{'no_quick_create': True, 'no_create': True}" />
                     </group>
                 </sheet>
             </form>

@@ -11,6 +11,15 @@ class MovieShows(models.Model):
     run_time = fields.Float(string='Run Time')
     hall_id = fields.Many2one('movie.halls',string='Hall')
     
-    
-    
-    
+    @api.onchange('movie_id')
+    def fetch_runtime_hall_id(self):
+        if not self.movie_id:
+            self.run_time = False
+            self.hall_id = False
+            return
+        self.run_time = self.movie_id.movie_runtime
+        self.hall_id = self.movie_id.movie_halls
+
+            
+            
+        
