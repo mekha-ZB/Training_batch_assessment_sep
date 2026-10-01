@@ -5,12 +5,10 @@ class HotelRoom(models.Model):
     _name = 'hotel.room'
     _description = 'Hotel Room'
 
-
     _rec_name = 'room_type'
     room_number = fields.Char(string='Room Number', required=True, copy=False, readonly=True, default='New' )
     room_type = fields.Selection([('single', 'Single'),('double', 'Double'),('suite', 'Suite')], string='Room Type', required=True, default='single')
     rate_per_night = fields.Float(string='Rate Per Night', required=True)
-
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -6,7 +6,7 @@
     "website": 'www.zbeanztech.com',
 
     'version': '1.0',
-    'depends': ['base','mail'],
+    'depends': ['base','mail',],
     'data': [
         'security/group.xml',
         'security/ir.model.access.csv',

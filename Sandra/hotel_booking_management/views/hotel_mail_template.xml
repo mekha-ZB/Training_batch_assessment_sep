@@ -8,7 +8,7 @@
         <field name="body_html" type="html">
 
             <div>
-                <p>Dear  <t t-out="object.customer_id.name"/>,
+                <p>Dear<t t-out="object.customer_id.name"/>,
                 </p>
                 <p>Your hotel booking confirmation is attached below.</p>
                 <p>
@@ -16,7 +16,10 @@
                     <t t-out="object.customer_number"/>
                     <br/>
                     <strong>Room:</strong>
-                    <t t-out="object.room_id"/>
+                    <t t-out="object.room_id.room_number"/>
+                    <br/>
+                    <strong>Room Type:</strong>
+                    <t t-out="object.room_id.room_type"/>
                     <br/>
                     <strong>Check-in:</strong>
                     <t t-out="object.check_in"/>
