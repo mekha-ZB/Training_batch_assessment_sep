@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo . exceptions import UserError
+from odoo.exceptions import UserError
 import base64
 
 
@@ -8,9 +8,7 @@ class SalonAppointment(models.Model):
     _description = 'Salon Appointment  '
     _rec_name = 'customer_id'
 
-
     _inherit = ['mail.thread', 'mail.activity.mixin']
-
 
     appointment_number = fields.Char(
         string='Appointment Number',
@@ -22,14 +20,13 @@ class SalonAppointment(models.Model):
     customer_id = fields.Many2one(
         'res.partner',
         string='Customer Name',
+        copy=False,
         domain=[('user_role', '=', 'customer')],
-        required=True
     )
 
     stylish_id = fields.Many2one(
         'res.partner',
         string='Stylish Name',
-        required=True
     )
     stylish_list_ids = fields.Many2many(
         'res.partner',
@@ -39,7 +36,6 @@ class SalonAppointment(models.Model):
     service_id = fields.Many2one(
         'salon.service',
         string='Selected Service',
-        required=True
     )
 
     # is_receptionist = fields.Boolean(
@@ -60,7 +56,6 @@ class SalonAppointment(models.Model):
         ],
         string='Status',
         default='booked',
-        required=True,
     )
     appointment_date_time = fields.Datetime(
         string='Appointment Date',
@@ -83,88 +78,86 @@ class SalonAppointment(models.Model):
             if rec.service_id:
                 rec.stylish_list_ids = rec.service_id.stylist_ids.ids
 
-    def send_mail(self):
-        self.ensure_one()
-
-        # Email template
-        template = self.env.ref(
-            'salon_appointment_booking.mail_template_salon_details'
-        )
-
-        # PDF report
-        report = self.env.ref(
-            'salon_appointment_booking.action_salon_details_report'
-        )
-
-        # Generate PDF
-        pdf_content, content_type = report._render_qweb_pdf(
-            'salon_appointment_booking.action_salon_details_report',
-            res_ids=self.ids
-        )
-
-        # Create attachment
-        attachment = self.env['ir.attachment'].create({
-            'name': f'{self.customer_id.name} - Appointment Confirmation.pdf',
-            'type': 'binary',
-            'datas': base64.b64encode(pdf_content),
-            'res_model': 'salon.appointment',
-            'res_id': self.id,
-            'mimetype': 'application/pdf',
-        })
-
-        # Open email composer
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Send Email',
-            'res_model': 'mail.compose.message',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {
-                'default_model': 'salon.appointment',
-                'default_res_ids': [self.id],
-                'default_template_id': template.id,
-                'default_attachment_ids': [
-                    (6, 0, [attachment.id])
-                ],
-                # 'default_composition_mode': 'comment',
-            },
-        }
-
-
     # def send_mail(self):
     #     self.ensure_one()
-    #     ctx = {
-    #         'default_model': 'salon.appointment',
-    #         'default_res_ids': self.ids,
-    #         'default_composition_mode': 'comment',
-    #         'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
-    #         'email_notification_allow_footer': True,
-    #         'hide_mail_template_management_options': True,
-    #         'default_partner_ids': self.customer_id.ids,
-    #         'default_reply_to': self.customer_id.email,
-    #         'force_email': True,
-    #     }
     #
-    #     if not self.env.context.get('hide_default_template'):
-    #         mail_template = self.env.ref(
-    #             'salon_appointment_booking.mail_template_salon_details',
-    #             raise_if_not_found=False,
-    #         )
+    #     # Email template
+    #     template = self.env.ref(
+    #         'salon_appointment_booking.mail_template_salon_details'
+    #     )
     #
-    #         if mail_template:
-    #             ctx.update({
-    #                 'default_template_id': mail_template.id,
-    #             })
+    #     # PDF report
+    #     report = self.env.ref(
+    #         'salon_appointment_booking.action_salon_details_report'
+    #     )
     #
+    #     # Generate PDF
+    #     pdf_content, content_type = report._render_qweb_pdf(
+    #         'salon_appointment_booking.action_salon_details_report',
+    #         res_ids=self.ids
+    #     )
+    #
+    #     # Create attachment
+    #     attachment = self.env['ir.attachment'].create({
+    #         'name': f'{self.customer_id.name} - Appointment Confirmation.pdf',
+    #         'type': 'binary',
+    #         'datas': base64.b64encode(pdf_content),
+    #         'res_model': 'salon.appointment',
+    #         'res_id': self.id,
+    #         'mimetype': 'application/pdf',
+    #     })
+    #
+    #     # Open email composer
     #     return {
     #         'type': 'ir.actions.act_window',
-    #         'name': 'Compose Email',
+    #         'name': 'Send Email',
     #         'res_model': 'mail.compose.message',
     #         'view_mode': 'form',
     #         'target': 'new',
-    #         'context': ctx,
+    #         'context': {
+    #             'default_model': 'salon.appointment',
+    #             'default_res_ids': [self.id],
+    #             'default_template_id': template.id,
+    #             'default_attachment_ids': [
+    #                 (6, 0, [attachment.id])
+    #             ],
+    #             # 'default_composition_mode': 'comment',
+    #         },
     #     }
 
+    def send_mail(self):
+        self.ensure_one()
+        ctx = {
+            'default_model': 'salon.appointment',
+            'default_res_ids': self.ids,
+            'default_composition_mode': 'comment',
+            'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
+            'email_notification_allow_footer': True,
+            'hide_mail_template_management_options': True,
+            'default_partner_ids': self.customer_id.ids,
+            'default_reply_to': self.customer_id.email,
+            'force_email': True,
+        }
+
+        if not self.env.context.get('hide_default_template'):
+            mail_template = self.env.ref(
+                'salon_appointment_booking.mail_template_salon_details',
+                raise_if_not_found=False,
+            )
+
+            if mail_template:
+                ctx.update({
+                    'default_template_id': mail_template.id,
+                })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Compose Email',
+            'res_model': 'mail.compose.message',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': ctx,
+        }
 
     @api.onchange('stylish_id', 'appointment_date_time')
     def _onchange_check_stylish_appointment(self):

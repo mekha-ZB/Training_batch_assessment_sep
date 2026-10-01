@@ -15,55 +15,66 @@
                     </strong>
                 </p>
                 <p>
-                    We are pleased to confirm your <b><span t-out="object.service_id.service_name" /></b> at <b><span t-out="object.appointment_date_time" /></b> and Your stylist is <b><span t-out="object.stylish_id.name"/></b>
+                    We are pleased to confirm your
+                    <b>
+                        <span t-out="object.service_id.service_name"/>
+                    </b>
+                    at
+                    <b>
+                        <span t-field="object.appointment_date_time"/>
+                    </b>
+                    and Your stylist is
+                    <b>
+                        <span t-out="object.stylish_id.name"/>
+                    </b>
                 </p>
-<!--                <table style="border-collapse: collapse; width: 100%;">-->
-<!--                    <tr>-->
-<!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
-<!--                            Field-->
-<!--                        </th>-->
-<!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
-<!--                            Details-->
-<!--                        </th>-->
-<!--                    </tr>-->
+                <!--                <table style="border-collapse: collapse; width: 100%;">-->
+                <!--                    <tr>-->
+                <!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
+                <!--                            Field-->
+                <!--                        </th>-->
+                <!--                        <th style="border: 1px solid #000; padding: 8px; text-align: left;">-->
+                <!--                            Details-->
+                <!--                        </th>-->
+                <!--                    </tr>-->
 
-<!--                    <tr>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            Customer Name-->
-<!--                        </td>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            <t t-out="object.customer_id.name"/>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            Customer Name-->
+                <!--                        </td>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            <t t-out="object.customer_id.name"/>-->
+                <!--                        </td>-->
+                <!--                    </tr>-->
 
-<!--                    <tr>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            Date of Appointment-->
-<!--                        </td>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            <t t-out="object.appointment_date_time"/>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            Date of Appointment-->
+                <!--                        </td>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            <t t-out="object.appointment_date_time"/>-->
+                <!--                        </td>-->
+                <!--                    </tr>-->
 
-<!--                    <tr>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                           Selected Service-->
-<!--                        </td>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            <t t-out="object.service_id.service_name"/>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                           Selected Service-->
+                <!--                        </td>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            <t t-out="object.service_id.service_name"/>-->
+                <!--                        </td>-->
+                <!--                    </tr>-->
 
-<!--                    <tr>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                           Stylist-->
-<!--                        </td>-->
-<!--                        <td style="border: 1px solid #000; padding: 8px;">-->
-<!--                            <t t-out="object.stylish_id.name "/>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                           Stylist-->
+                <!--                        </td>-->
+                <!--                        <td style="border: 1px solid #000; padding: 8px;">-->
+                <!--                            <t t-out="object.stylish_id.name "/>-->
+                <!--                        </td>-->
+                <!--                    </tr>-->
 
-<!--                </table>-->
+                <!--                </table>-->
                 <p>
                     Kindly confirm details of this appointment and we will provide you, the quality service.
                 </p>
@@ -77,6 +88,6 @@
         </field>
         <!-- Attach the generated PDF report in the email composer -->
         <field name="report_template_ids"
-            eval="[(4, ref('salon_appointment_booking.action_salon_details_report'))]" />
+               eval="[(4, ref('salon_appointment_booking.action_salon_details_report'))]"/>
     </record>
 </odoo>

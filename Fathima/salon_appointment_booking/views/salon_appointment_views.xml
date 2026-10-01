@@ -11,14 +11,11 @@
                 <field name="service_id"/>
                 <field name="appointment_date_time"/>
                 <field name="notes"/>
-
-
-
                 <field name="state"
-                        widget="badge"
-                        decoration-success="state == 'booked'"
-                        decoration-info="state == 'cancellation requested'"
-                        decoration-danger="state == 'cancelled'"/>
+                       widget="badge"
+                       decoration-success="state == 'booked'"
+                       decoration-info="state == 'cancellation requested'"
+                       decoration-danger="state == 'cancelled'"/>
 
 
             </list>
@@ -73,17 +70,14 @@
 
                     <group>
                         <group string="Identification">
-                            <field name="customer_id" readonly="state in ['cancelled' , 'completed']"/>
-                            <field name="service_id" readonly="state in ['cancelled' , 'completed']"/>
-                            <field name="stylish_id"  domain="[('id', 'in', stylish_list_ids)]" readonly="state in ['cancelled' , 'completed']"/>
-                            <field name="stylish_list_ids" widget="many2many_tags" invisible="1" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="customer_id" required="True" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="service_id" required="True" readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="stylish_id" required="True" domain="[('id', 'in', stylish_list_ids)]"
+                                   readonly="state in ['cancelled' , 'completed']"/>
+                            <field name="stylish_list_ids" widget="many2many_tags" invisible="1"
+                                   readonly="state in ['cancelled' , 'completed']"/>
                             <field name="appointment_date_time" readonly="state in ['cancelled' , 'completed']"/>
                             <field name="notes" readonly="state in ['cancelled' , 'completed']"/>
-
-
-
-
-
 
                         </group>
                     </group>
@@ -97,55 +91,57 @@
 
 
     <record id="view_saloon_appointment_search" model="ir.ui.view">
-    <field name="name">salonappointment.search</field>
-    <field name="model">salon.appointment</field>
-    <field name="arch" type="xml">
-        <search string="Search Appointment">
+        <field name="name">salonappointment.search</field>
+        <field name="model">salon.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Search Appointment">
 
-            <field name="customer_id"/>
-
-
-            <filter
-                name="booked_appointments"
-                string="Booked Appointments"
-                domain="[('state', '=', 'booked')]"
-            />
-
-            <filter
-                name="cancelled_appointments"
-                string="Cancelled Appointments"
-                domain="[('state', '=', 'cancelled')]"
-            />
-
-
-            <group>
+                <field name="customer_id"/>
+                <field name="stylish_id"/>
+                <field name="service_id"/>
+                <field name="appointment_date_time"/>
+                <field name="state"/>
 
                 <filter
-                name="group_by_state"
-                string="Status"
-                context="{'group_by':'state'}"
-            />
-
+                        name="booked_appointments"
+                        string="Booked Appointments"
+                        domain="[('state', '=', 'booked')]"
+                />
 
                 <filter
-                name="group_by_service"
-                string="Service"
-                context="{'group_by':'service_id'}"
-            />
-
-            </group>
+                        name="cancelled_appointments"
+                        string="Cancelled Appointments"
+                        domain="[('state', '=', 'cancelled')]"
+                />
 
 
-        </search>
-    </field>
-</record>
+                <group>
+
+                    <filter
+                            name="group_by_state"
+                            string="Status"
+                            context="{'group_by':'state'}"
+                    />
+
+
+                    <filter
+                            name="group_by_service"
+                            string="Service"
+                            context="{'group_by':'service_id'}"
+                    />
+
+                </group>
+
+
+            </search>
+        </field>
+    </record>
 
     <record id="action_salon_appointment" model="ir.actions.act_window">
         <field name="name">Salon Appointment</field>
         <field name="res_model">salon.appointment</field>
         <field name="view_mode">list,form,search</field>
     </record>
-
 
 
     <menuitem id="menu_salon_appointment"

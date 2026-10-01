@@ -1,65 +1,177 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
+    <!-- Salon Appointment Report -->
     <template id="report_salon_report_details">
 
         <t t-call="web.html_container">
 
-            <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="salon">
 
-                <div class="page" style="margin-left:270px">
+                <t t-call="web.external_layout">
 
+                    <div class="page">
 
-                    <t t-foreach="docs" t-as="salon">
-                        <h2>Appointment Confirmation:
-                            <div t-field="salon.appointment_number"/>
-                        </h2>
-                        <p>
-                            <b>Customer Name:</b>
-                            <span t-field="salon.customer_id"/>
-                        </p>
-                        <p>
-                            <b>Date of Appointment:</b>
-                            <span t-field="salon.appointment_date_time"/>
-                        </p>
-                        <p>
-                            <b>Selected Service:</b>
-                            <span t-field="salon.service_id"/>
-                        </p>
-                        <p>
-                            <b>Stylist:</b>
-                            <span t-field="salon.stylish_id"/>
-                        </p>
-                    </t>
+                        <!--        REPORT HEADER       -->
 
 
-                </div>
+                        <div style="text-align: center; margin-bottom: 30px;">
+
+                            <h2 style="margin-bottom: 8px;">
+                                Appointment Confirmation
+                            </h2>
+
+                            <div style="font-size: 14px;">
+                                <strong>Appointment No:</strong>
+                                <span t-field="salon.appointment_number"/>
+                            </div>
+
+                        </div>
 
 
+                        <!--     APPOINTMENT DETAILS    -->
 
+
+                        <table style="
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            font-size: 14px;
+                        ">
+
+                            <tr>
+                                <td style="
+                                    width: 35%;
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                    background-color: #f5f5f5;
+                                ">
+                                    <strong>Customer Name</strong>
+                                </td>
+
+                                <td style="
+                                    width: 65%;
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                ">
+                                    <span t-field="salon.customer_id"/>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                    background-color: #f5f5f5;
+                                ">
+                                    <strong>Date of Appointment</strong>
+                                </td>
+
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                ">
+                                    <span t-field="salon.appointment_date_time"/>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                    background-color: #f5f5f5;
+                                ">
+                                    <strong>Selected Service</strong>
+                                </td>
+
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                ">
+                                    <span t-field="salon.service_id"/>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                    background-color: #f5f5f5;
+                                ">
+                                    <strong>Stylist</strong>
+                                </td>
+
+                                <td style="
+                                    padding: 12px;
+                                    border: 1px solid #cccccc;
+                                ">
+                                    <span t-field="salon.stylish_id"/>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <!-- ========================= -->
+                        <!--    CONFIRMATION MESSAGE    -->
+                        <!-- ========================= -->
+
+                        <div style="
+                            text-align: center;
+                            margin-top: 35px;
+                        ">
+
+                            <p style="font-size: 14px;">
+                                <strong>Thank you for choosing our salon!</strong>
+                            </p>
+
+                            <p style="
+                                font-size: 13px;
+                                color: #666666;
+                            ">
+                                We look forward to seeing you at your scheduled appointment.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </t>
 
             </t>
-        </t>
 
+        </t>
 
     </template>
 
 
+    <!-- ========================= -->
+    <!--       CUSTOM FOOTER        -->
+    <!-- ========================= -->
 
     <template id="custom_external_layout_footer"
               inherit_id="web.external_layout_standard">
 
         <xpath expr="//div[contains(@class, 'footer')]" position="inside">
 
-            <div class="text-center">
+            <div style="
+                text-align: center;
+                font-size: 12px;
+                margin-top: 10px;
+            ">
+
                 Page
                 <span class="page"/>
                 of
                 <span class="topage"/>
+
             </div>
 
         </xpath>
 
     </template>
+
 </odoo>
-
-
