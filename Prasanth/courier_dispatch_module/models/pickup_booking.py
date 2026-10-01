@@ -8,7 +8,7 @@ class PickupBooking(models.Model):
     _inherit = ['mail.thread','mail.activity.mixin']
     
     booking_seq=fields.Char(string='Booking Sequence', required=True,copy=False, readonly=True, default=lambda self: _('New'))
-    product_line_ids=fields.One2many('product.line.id','pickup_id',string='Products')
+    product_line_ids=fields.One2many('product.line.id','pickup_id',string='Products',copy=False)
     customer_id=fields.Many2one('res.partner',string='Customer Name',copy=False)
     company_id=fields.Many2one('res.company',string='Company Name',copy=False)
     courier_id=fields.Many2one('res.partner',string='Courier Incharge', tracking=True,copy=False)
@@ -28,12 +28,12 @@ class PickupBooking(models.Model):
    
 
     delivery_date=fields.Date(string='Delivery Date',tracking=True,copy=False)
-    booking_date=fields.Date(string='Booking Date',tracking=True,copy=False)
+    booking_date=fields.Date(string='Booking Date',tracking=True,copy=False,default=fields.Date.today())
 
     cust_phone=fields.Char(string='Phone',copy=False)
     cust_email=fields.Char(string='Email',copy=False)
 
-    booking_status=fields.Selection([('scheduled','Scheduled'),('delivered','Delivered'),('cancellation_requested','Cancellation Requested'),('cancelled','Cancelled')],string='Booking Status',default='scheduled',tracking=True)
+    booking_status=fields.Selection([('scheduled','Scheduled'),('delivered','Delivered'),('cancellation_requested','Cancellation Requested'),('cancelled','Cancelled')],string='Booking Status',default='scheduled',tracking=True,copy=False)
 
     @api.constrains('booking_date','delivery_date')
     def _constrains_dates(self):
@@ -45,15 +45,24 @@ class PickupBooking(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            product_line=vals.get('product_line_ids')
+            if not product_line:
+                raise ValidationError(_("You can't create a record with an empty Product Line"))
             if vals.get('booking_seq', 'New') == 'New':
                 vals['booking_seq'] = self.env['ir.sequence'].next_by_code('pickup.booking.sequence') or 'New'
         return super(PickupBooking, self).create(vals_list)
 
-    @api.constrains('product_line_ids')
-    def _constrains_product_line_ids(self):
+    # @api.constrains('product_line_ids')
+    # def _constrains_product_line_ids(self):
+        # for rec in self:
+            # if not rec.product_line_ids:
+                # raise ValidationError(_('Product Line cannot be empty'))
+
+    @api.constrains('booking_date')
+    def _constrains_booking_date(self):
         for rec in self:
-            if not rec.product_line_ids:
-                raise ValidationError(_('Product Line cannot be empty'))
+            if rec.booking_date != fields.Date.today():
+                raise ValidationError(_("Booking Date has to be today's date"))
 
 
     @api.onchange('company_id')

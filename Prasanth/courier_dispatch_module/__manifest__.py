@@ -6,7 +6,7 @@
     "license": "LGPL-3",
     "website": "http://www.zbeanztech.com",
     "description": "Welcome to our Courier Dispatch Module",
-    'depends': ['base','contacts','product','sale','mail'],
+    'depends': ['base','contacts','product','mail'],
     'data': [
         'security/courier_groups.xml',
         'security/ir.model.access.csv',
