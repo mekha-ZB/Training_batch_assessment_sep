@@ -12,20 +12,18 @@
         'security/rule.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
-
-
         'report/action.xml',
         'report/template.xml',
         'report/appointment_pdf_action.xml',
         'report/appointment_pdf_template.xml',
         'data/template.xml',
         'views/appointment_views.xml',
-        'views/contact_inherit.xml',
+        'wizard/report_wizard_views.xml',
         'views/reporting_views.xml',
         'views/specialization_views.xml',
+        'views/contact_inherit.xml',
         'wizard/reminder_wizard_views.xml',
         'wizard/xlsx_action.xml',
-        'wizard/report_wizard_views.xml',
         'wizard/cancellation_wizard_views.xml',
 
         ],

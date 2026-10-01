@@ -51,6 +51,7 @@
                             type="object"
                             string="Cancellation Requested"
                             class="oe_warning"
+                            groups="doctor_patient_management.group_front_desk_staff"
                             invisible="state != 'booked'"/>
 
                     <button

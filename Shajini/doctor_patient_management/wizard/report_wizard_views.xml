@@ -47,6 +47,6 @@
             name="Hospital Report"
             parent="menu_reporting"
             action="action_hospital_report_wizard"
-            sequence="410"
+            sequence="211"
             groups="doctor_patient_management.group_clinic_manager,doctor_patient_management.group_clinic_supervisor"/>
 </odoo>

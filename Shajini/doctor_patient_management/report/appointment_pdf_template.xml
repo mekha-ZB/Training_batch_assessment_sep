@@ -13,7 +13,7 @@
                         <strong>To Date:</strong>
                         <span t-esc="to_date"/>
                     </p>
-                    <table class="table table-sm">
+                    <table class="table table-sm table-bordered" style="border: 1px solid black;">
                         <thead>
                             <tr>
                                 <th>Reference</th>
