@@ -4,6 +4,8 @@ from odoo.exceptions import ValidationError
 class LibraryBookIssue(models.Model):
     _name = 'library.book.issue'
     _description = 'Library Book Issue'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
 
     name = fields.Char(string='Issue Number',copy=False,default='New')
     book_id = fields.Many2one('library.book', string='Book')
@@ -29,7 +31,7 @@ class LibraryBookIssue(models.Model):
         self.ensure_one()
         lib = self.env.ref('library_management1.email_template_book_issue_slip', raise_if_not_found=False)
         if lib:
-            lib.send_mail(self.id, force_send=True)
+            lib.send_mail(self.id, force_send=True,email_values={'email_to':self.member_id.email,})
         return True
 
     def action_mark_returned(self):

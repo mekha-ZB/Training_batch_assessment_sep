@@ -53,6 +53,9 @@
         'security/record_rules.xml',
 
         'data/sequence_data.xml',
+        'report/library_book_issue_template.xml',
+        'report/library_book_issue_report.xml',
+
         'data/mail_template_data.xml',
 
         'wizard/library_book_issue_wizard_views.xml',
@@ -60,10 +63,8 @@
         'views/library_book_views.xml',
         'views/library_book_issue_views.xml',
         'views/res_partner_views.xml',
-
         'views/menu_views.xml',
 
-        'report/library_book_issue_report.xml',
     ],
     'test': [],
     'demo': [],
