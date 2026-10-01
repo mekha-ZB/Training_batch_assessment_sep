@@ -28,12 +28,12 @@
             <form>
                 <header>
                     <button name="confirm_button" type="object" string="Confirm" invisible="state!= 'draft'"/>
-                    <button name="send_email" type="object" string="Send Email" />
-                    <button name="return_button" type="object" string="Returned" groups="car_rental_booking.group_rental_agent"/>
-                    <button name="cancel_request_button" type="object" string="Request For Cancellation" groups="car_rental_booking.group_rental_agent" invisible="state in ['draft','cancelled','approve']"/>
+                    <button name="send_email" type="object" string="Send Email" invisible="state not in ['draft','confirmed']"/>
+                    <button name="return_button" type="object" string="Returned" groups="car_rental_booking.group_rental_agent" invisible="state in 'returned'"/>
+                    <button name="cancel_request_button" type="object" string="Request For Cancellation" groups="car_rental_booking.group_rental_agent" invisible="state in ['draft','cancelled','approve','returned']"/>
                     <button name="approve_button" type="object" string="Approve" groups="car_rental_booking.group_branch_supervisor,car_rental_booking.group_branch_manager" invisible="state!= 'cancelled'"/>
                     <button name="reject_button" type="object" string="Reject" groups="car_rental_booking.group_branch_supervisor,car_rental_booking.group_branch_manager" invisible="state!= 'cancelled'"/>
-                    <button name="cancel_button" type="object" string="Cancelled" groups="car_rental_booking.group_branch_manager"/>
+                    <button name="cancel_button" type="object" string="Cancel" groups="car_rental_booking.group_branch_manager" invisible="state in 'cancel'"/>
                     <field name="state" string="State" widget="statusbar" statusbar_visible="draft,confirm,returned"/>
                 </header>
                 <sheet>
@@ -43,14 +43,15 @@
                     <group>
                         <group>
                             <field name="customer_id" readonly="state in 'cancel'"/>
-                            <field name="model" readonly="state in 'cancel'"/>
+                            <field name="vehicle_type" readonly="state in 'cancel'"/>
+                            <field name="model" domain="[('vehicle_type', '=', vehicle_type)]" readonly="state in 'cancel'"/>
                             <field name="pick_up_date" readonly="state in 'cancel'"/>
                             <field name="return_date" readonly="state in 'cancel'"/>
                         </group>
                         <group>
-                            <field name="daily_rate" readonly="state in 'cancel'"/>
-                            <field name="rental_days" readonly="state in 'cancel'"/>
-                            <field name="total_cost" readonly="state in 'cancel'"/>
+                            <field name="daily_rate" force_save='True'/>
+                            <field name="rental_days"/>
+                            <field name="total_cost" force_save='True'/>
                         </group>
                     </group>
                 </sheet>

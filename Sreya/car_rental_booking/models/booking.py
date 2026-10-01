@@ -7,15 +7,23 @@ class BookingDetails(models.Model):
     _inherit=['mail.thread','mail.activity.mixin']
     _rec_name = 'customer_id'
     
-    customer_id = fields.Many2one('res.partner', string="Customer Name")
-    model = fields.Many2one('vehicle.details',string="Model")
-    pick_up_date = fields.Date(string="PickUp Date")
-    return_date = fields.Date(string="Return Date")
-    state = fields.Selection([('draft' , 'Draft'),('confirmed' , 'Confirmed'), ('returned', 'Returned'), ('cancelled', 'Request For Cancellation'),('approve','Approved Cancellation'),('reject','Rejected Cancelation'),('cancel','Cancelled Booking')],default='draft')
+    customer_id = fields.Many2one('res.partner', string="Customer Name",copy=False)
+    vehicle_type = fields.Selection([('Car', 'Car'),('Bike', 'Bike'),('Scooter', 'Scooter'),], string="Vehicle Type", copy=False)
+    model = fields.Many2one('vehicle.details',string="Model",copy=False)
+    pick_up_date = fields.Date(string="PickUp Date",copy=False)
+    return_date = fields.Date(string="Return Date",copy=False)
+    state = fields.Selection([('draft' , 'Draft'),('confirmed' , 'Confirmed'), ('returned', 'Returned'), ('cancelled', 'Request For Cancellation'),('approve','Approved Cancellation'),('reject','Rejected Cancelation'),('cancel','Cancelled Booking')],default='draft',copy=False)
     seq = fields.Char(string='Reference', copy=False, readonly=True, default='New')
     daily_rate = fields.Float(string="Daily Rate")
-    rental_days = fields.Integer(string='Rental Days',compute='_compute_rental_days',store=True)
-    total_cost = fields.Float(string="Total Rental Cost", compute="_compute_total_cost",store=True)
+    rental_days = fields.Integer(string='Rental Days', compute="_compute_rental_days")
+    total_cost = fields.Float(string="Total Rental Cost", compute="_compute_total_cost")
+    
+    @api.constrains('pick_up_date','return_date')
+    def check_date(self):
+        for record in self:
+            if record.pick_up_date and record.return_date:
+                if record.pick_up_date >= record.return_date:
+                    raise ValidationError("Return date must be greater than or equal to pickup date")
     
     @api.depends('pick_up_date', 'return_date')
     def _compute_rental_days(self):
@@ -112,13 +120,3 @@ class BookingDetails(models.Model):
             }
     
     
-    # def cancel_request_button(self):
-    #     return {
-    #         # open pop up
-    #         'type': 'ir.actions.act_window',
-    #         'name': 'Reason For Cancellation',
-    #         'res_model': 'booking.wizard',
-    #         'view_mode': 'form',
-    #         'target': 'new',
-    #         'context': {'active_ids': self.ids},
-    #     }

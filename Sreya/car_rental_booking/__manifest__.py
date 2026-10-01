@@ -19,7 +19,6 @@
         "report/booking_templates.xml",
         "report/booking_report.xml",
         "data/mail_template.xml",
-        # "wizard/booking_wizard.xml",
     ],
     "installable": True,
     "auto_install": True,

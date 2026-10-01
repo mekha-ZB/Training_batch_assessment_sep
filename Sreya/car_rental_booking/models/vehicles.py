@@ -7,10 +7,10 @@ class CarDetails(models.Model):
     _inherit=['mail.thread','mail.activity.mixin']
     _rec_name = 'model'
     
-    vehicle_type = fields.Char(string="Vehicle Type")
-    model = fields.Char(string="Model")
-    plate_number = fields.Char(string="Plate Number")
-    daily_rate = fields.Float(string="Daily Rate")
+    vehicle_type = fields.Char(string="Vehicle Type",copy=False)
+    model = fields.Char(string="Model",copy=False)
+    plate_number = fields.Char(string="Plate Number",copy=False)
+    daily_rate = fields.Float(string="Daily Rate",copy=False)
     ref = fields.Char(string='Reference', copy=False, readonly=True, default='New')
     
     @api.constrains('daily_rate')
