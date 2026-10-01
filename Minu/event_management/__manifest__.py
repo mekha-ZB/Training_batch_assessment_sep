@@ -4,7 +4,7 @@
     'author':'Minu',
     'description':'''Event Management''',
     'category':'Tools',
-    'depends':['base','mail'],
+    'depends':['base','mail','sale'],
 
     'data':[
         'security/security_groups.xml',

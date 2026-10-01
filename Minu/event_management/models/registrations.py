@@ -26,50 +26,65 @@ class RegistrationDetails(models.Model):
         return super().create(vals)
 
     def send_mail(self):
-            self.ensure_one()
-            
-            ctx = {
-                'default_model': 'registration.details',
-                'default_res_ids': self.ids,
-                'default_composition_mode': 'comment',
-                'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
-                'email_notification_allow_footer': True,
-                'hide_mail_template_management_options': True,
-                'default_partner_ids': self.attendee_name.ids,
-                'default_reply_to': self.attendee_name.email,
-                'force_email': True,
-            }
-            self.registration_status='completed'
-            if not self.env.context.get('hide_default_template'):
-                mail_template = self.env.ref(
-                    'event_management.registration_confirmation_email',
-                    raise_if_not_found=False,
-                )
-    
-                if mail_template:
-                    ctx.update({
-                        'default_template_id': mail_template.id,
-                    })
-            
-            
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Compose Email',
-                'res_model': 'mail.compose.message',
-                'view_mode': 'form',
-                'target': 'new',
-                'context': ctx,
+        self.ensure_one()
+
+        ctx = {
+            'default_model': 'registration.details',
+            'default_res_ids': self.ids,
+            'default_composition_mode': 'comment',
+            'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
+            'email_notification_allow_footer': True,
+            'hide_mail_template_management_options': True,
+            'default_partner_ids': self.attendee_name.ids,
+            'default_reply_to': self.attendee_name.email,
+            'force_email': True,
+            'registration_id': self.id,
+        }
+
+        if not self.env.context.get('hide_default_template'):
+            mail_template = self.env.ref(
+                'event_management.registration_confirmation_email',
+                raise_if_not_found=False,
+            )
+
+            if mail_template:
+                ctx.update({
+                    'default_template_id': mail_template.id,
+                })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Compose Email',
+            'res_model': 'mail.compose.message',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': ctx,
+        }
                 
-            }
-            
         
-    @api.depends('event_id')
+    @api.depends('event_id', 'registration_status')
     def _compute_seats_remaining(self):
-        total_seat_capacity = self.event_venue.seat_capacity
-        reamining_seats = self.env['registration.details'].search_count([('event_id', '=', self.event_id.id)])
         for record in self:
-            if record.registration_status in ['registered','completed','cancel_request']:
-                record.seats_remaining = total_seat_capacity - reamining_seats
+
+            if not record.event_id or not record.event_id.event_venue:
+                record.seats_remaining = 0
+                continue
+
+            total_seat_capacity = record.event_id.event_venue.seat_capacity
+
+            remaining_seats = self.env['registration.details'].search_count([
+                ('event_id', '=', record.event_id.id)
+            ])
+
+            if record.registration_status in ['registered', 'completed', 'cancel_request']:
+
+                record.seats_remaining = total_seat_capacity - remaining_seats
+
+                if record.seats_remaining <= 0:
+                    raise ValidationError(
+                        "All seats for this event have been filled."
+                    )
+
             else:
                 record.seats_remaining = 0
 
@@ -93,7 +108,3 @@ class RegistrationDetails(models.Model):
                 if attendees>=1:
                     raise ValidationError("You are Already Registered for this Event.")
                 
-    @api.constrains('seats_remaining')
-    def seats_ensure(self):
-        if self.seats_remaining <= 0:
-            raise ValidationError("No Seats Available!")
